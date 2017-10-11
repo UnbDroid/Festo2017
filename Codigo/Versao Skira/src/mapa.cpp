@@ -11,20 +11,12 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-// Insira a altura e largula do objeto em metros, se quiser escolhe a granulacao
-=======
 // Insira a altura e largura do objeto em metros, se quiser escolhe a granulacao
->>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 Mapa::Mapa(float altura, float largura, float granulacao){
 	int n = (int) (altura/granulacao  + 1);
 	int m = (int) (largura/granulacao + 1);
 	mapa = new int [m*n];
-<<<<<<< HEAD
-	img_mapa =  Mat::zeros(m, n, CV_8UC3);
-=======
 	img_mapa =  Mat::zeros(m, n, CV_8UC3);//CV_8UC3 tipo matriz com 8 char - 3 canais
->>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 	coordenadas_do_mapa = new Coordenadas [m*n];
 	definir_cores();
 	this->m = m;
@@ -34,11 +26,7 @@ Mapa::Mapa(float altura, float largura, float granulacao){
 	this->granulacao = granulacao;
 	for (int i = 0; i < m*n; ++i){
 		mapa[i] = 0;
-<<<<<<< HEAD
-		coordenadas_do_mapa[i] = Coordenadas((int)(i/m)*granulacao,(int)(i%m)*granulacao);
-=======
 		coordenadas_do_mapa[i] = Coordenadas((int)(i/m)*granulacao,(int)(i%m)*granulacao);//========<<<<<<
->>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 	}
 	construir_representacao();
 }
@@ -48,19 +36,11 @@ Mapa::~Mapa(){
 	//delete[] coordenadas_do_mapa;
 }
 
-<<<<<<< HEAD
-void Mapa::definir_cores(){
-	cores[0] = Scalar(0,255,255);
-	cores[1] = Scalar(255,255,255);
-	cores[2] =  Scalar(255,0,0);
-	cores[3] =  Scalar(0,255,0);
-=======
 void Mapa::definir_cores(){ //<<<<<<<<<<
 	cores[0] = Scalar(0,255,255);
 	cores[1] = Scalar(255,255,255);
 	cores[2] = Scalar(255,0,0);
 	cores[3] = Scalar(0,255,0);
->>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 	cores[4] = Scalar(0,140,127);
 	cores[5] = Scalar(255,255,0);
 	cores[6] = Scalar(0,255,170);
@@ -73,17 +53,10 @@ string Mapa::representacao() const{
 	return repr;
 }
 
-<<<<<<< HEAD
-void Mapa::inserir_parede(Coordenadas coord){
-	int m = coord.get_y()/granulacao;
-	int n = coord.get_x()/granulacao;
-	if(m >= this->m || n >= this->n || m < 0 || n < 0)
-=======
 void Mapa::inserir_parede(Coordenadas coord){ /// UTILIZAR INSERIR RETANGULO, BUZZ FALOU ALGUMA COISA SOBRE ESSA FUNÇAO
 	int m = coord.get_y()/granulacao;
 	int n = coord.get_x()/granulacao;
 	if(m >= this->m || n >= this->n || m < 0 || n < 0)//condição dentro mapa
->>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 		return;
 	mapa[m*this->n+n] = 1;
 	repr.replace(4*(n*this->m+m)+2,1,"\u25A0",2,2);

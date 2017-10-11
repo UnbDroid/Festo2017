@@ -409,5 +409,9 @@ void Robotino::setCorDiscoDeposito (Object obj1, Object obj2) {
 
 void Robotino::removerCorFaltando(int cor){
     coresFaltando.erase(std::find(coresFaltando.begin(), coresFaltando.end(), cor));
+<<<<<<< HEAD
     std::cout << "Perigo de dar caquinha\n";//=================================================================PQ????
+=======
+    std::cout << "Perigo de dar caquinha\n";
+>>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 }

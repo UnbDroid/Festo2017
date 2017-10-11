@@ -27,9 +27,12 @@
 #include "modulo2_V3Turbo.hpp"
 #include "modulo3.hpp"
 #include "modulo3testar.hpp"
+<<<<<<< HEAD
 
 #include "teste001.hpp"
 
+=======
+>>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 #include "modulo3louco.hpp"
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
@@ -66,6 +69,7 @@ int main( int argc, char **argv )
 			hostname = argv[1];
 		}
 		//Banana
+<<<<<<< HEAD
 		Robotino robo(hostname.c_str(), teste001::instance(), Coordenadas(174.,-198,180));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
 
 		while(true){
@@ -76,6 +80,18 @@ int main( int argc, char **argv )
 			 	std::cerr << erro << std::endl;
 			 	throw erro;
 			}
+=======
+		Robotino robo(hostname.c_str(), Modulo3Testar::instance(), Coordenadas(174.,-198,180));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
+
+		while(true){
+			
+			// try{
+			// 	robo.update();
+			// }catch(const char * erro){
+			// 	std::cerr << erro << std::endl;
+			// 	throw erro;
+			// }
+>>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 		}
 	}catch(const char * erro){
 		std::cerr << erro << std::endl;

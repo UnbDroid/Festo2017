@@ -66,12 +66,13 @@ int main( int argc, char **argv )
 		Robotino robo(hostname.c_str(), Modulo3Testar::instance(), Coordenadas(174.,-198,180));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
 
 		while(true){
-			try{
-				robo.update();
-			}catch(const char * erro){
-				std::cerr << erro << std::endl;
-				throw erro;
-			}
+			
+			// try{
+			// 	robo.update();
+			// }catch(const char * erro){
+			// 	std::cerr << erro << std::endl;
+			// 	throw erro;
+			// }
 		}
 	}catch(const char * erro){
 		std::cerr << erro << std::endl;

@@ -14,7 +14,6 @@
 #include "irparalinha.hpp"
 #include "modulo3testar.hpp"
 #include "teste001.hpp"
-
 #include "ajustarnaslinhas.hpp"
 #include "ajustarnaslinhasortogonais.hpp"
 #include "andarpelaparedeatelinha.hpp"
@@ -33,6 +32,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <algorithm>
+
 
 #define PI 3.14159265
 #define R 0
@@ -93,6 +93,7 @@ void teste001::execute(Robotino *robotino)
 
 // Saindo da area de inicio e indo para a area de deposito 6------------------------------------------------------------------------------------------
 //ANDA NAS 4 paredes da arena seguindo parede no sentido horário
+
     if(objetivo_completo == 0)
     {
         robotino->definirParedeAlvo(Robotino::LESTE180); // vira de costas pra parede, o robo virado pro norte, anda pro leste girando pro lado horario caso nao esteja virado pro norte
@@ -191,7 +192,11 @@ void teste001::execute(Robotino *robotino)
         robotino->change_state(IrParedePelaParede::instance());
         objetivo_completo = 0;
     }
-
+    else if(objetivo_completo == 99999)
+    {
+        std::cout << "TERMINOU" << endl;
+        robotino->~Robotino();
+    }
 
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

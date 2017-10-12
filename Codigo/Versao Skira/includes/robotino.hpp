@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <opencv2/opencv.hpp>
 
-
 class Robotino: public BaseCom, public RobotBase<Robotino>{
 public:
 
@@ -85,6 +84,9 @@ public:
 
     // Return the bumper state
     bool bumper();
+
+    //Lights up led
+    bool lightLed(unsigned int, bool);
 
     // Odometry values
     float odometryX();
@@ -239,6 +241,7 @@ private:
     rec::iocontrol::remotestate::SensorState currentSensorState;
     rec::iocontrol::remotestate::SetState setState;
     Odometry odometry;
+    DigitalOutput led; //seta led pra acender
     MyCamera<Robotino> camera;
     // Imagem da camera
     cv::Mat cameraImage;

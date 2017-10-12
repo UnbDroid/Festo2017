@@ -57,6 +57,22 @@ Robotino::~Robotino(){
     this->disconnect();
 }
 
+bool Robotino::lightLed(unsigned int digitalPort, bool onOff)// Acende o Led na porta escolhida
+{
+    bool cond = (digitalPort >= 0) && (digitalPort <= 7);
+    if(cond)
+    {
+        try{
+            this->led.setOutputNumber(digitalPort);
+            this->led.setValue(onOff);//LIGA LED
+        }catch(RobotinoException e)
+        {
+            std::cout << "Erro no objeto led\n";// a cond já checa se o numero da porta está errado,
+                                                // entao se cair aki o erro é no objeto led
+        }
+    }
+}
+
 bool Robotino::bumper(){
     return this->currentSensorState.bumper;
 }
@@ -409,9 +425,7 @@ void Robotino::setCorDiscoDeposito (Object obj1, Object obj2) {
 
 void Robotino::removerCorFaltando(int cor){
     coresFaltando.erase(std::find(coresFaltando.begin(), coresFaltando.end(), cor));
-<<<<<<< HEAD
+
     std::cout << "Perigo de dar caquinha\n";//=================================================================PQ????
-=======
     std::cout << "Perigo de dar caquinha\n";
->>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
 }

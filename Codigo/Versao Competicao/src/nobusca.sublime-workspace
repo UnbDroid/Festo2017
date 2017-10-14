@@ -1,0 +1,250 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fin",
+				"Find"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"thi",
+				"thisBat"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 47.0,
+		"last_filter": "Snippet: ",
+		"selected_items":
+		[
+			[
+				"Snippet: ",
+				"Snippet: #!/usr/bin/env"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"Package",
+				"Package Control: Enable Package"
+			],
+			[
+				"packa",
+				"Package Control: Add Channel"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/lucasbamidele/Documents/DEV/Festo2017/Codigo/Versao Competicao/src/main.cpp",
+		"/Users/lucasbamidele/Documents/DEV/Festo2017/Codigo/Versao Competicao/obj/acharlinhas.o",
+		"/Users/lucasbamidele/Documents/DEV/Festo2017/README.md",
+		"/Users/lucasbamidele/Documents/DEV/aff",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/PF_alpha.c",
+		"/Users/lucasbamidele/Documents/DROID/sp contatos",
+		"/Users/lucasbamidele/aff",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/GPIO_BASIC.as",
+		"/Users/lucasbamidele/Documents/polar octave",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/P11)",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/OI",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/P10)",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/ASCW16 FUNCIONAL",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/ORDENAMENTO16",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/ORDENAMENTO",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/MULTIPLICA E DIVIDE",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/PRIMOS",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/W16_ASC2",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/LISTA_1",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/EXP1",
+		"/Users/lucasbamidele/Documents/Lista guigas",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/ASC_W16",
+		"/Users/lucasbamidele/Documents/Greetings,",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/W16_ASC",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/M2M4",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/MAIOR",
+		"/Users/lucasbamidele/Documents/7˚ SEMESTRE/SISMIC/MENOR",
+		"/Users/lucasbamidele/Documents/DEV/Comecando.html",
+		"/Users/lucasbamidele/Documents/CV/TEMPLATE2D.m",
+		"/Users/lucasbamidele/Documents/CV/2A_L4_Q1.m",
+		"/Users/lucasbamidele/Documents/CV/2A_L4_Q1.matlab",
+		"/Users/lucasbamidele/Documents/CV/teste.m",
+		"/Users/lucasbamidele/Documents/Ereko/Referencias.bib",
+		"/Users/lucasbamidele/Documents/Ereko/BAT TESTES",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Simulacao.java",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/BatteryGroup.java",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Battery.java",
+		"/Users/lucasbamidele/Downloads/ArduinoLib_MAX17043-master/README",
+		"/Users/lucasbamidele/Downloads/lipo_fuleguage-v10/defs.h",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Ereko/Janela.java",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Ereko/BatteryGroup.java",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Ereko/Simulacao.java",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Ereko/Battery.java",
+		"/Users/lucasbamidele/Downloads/Battery.java",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Ereko/ActiveBattery.java",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Ereko/Modulo.java",
+		"/Users/lucasbamidele/eclipse-workspace/Ereko/src/Ereko/Environment.java",
+		"/Users/lucasbamidele/Downloads/lipo_fuleguage-v10/types.h",
+		"/Users/lucasbamidele/Downloads/lipo_fuleguage-v10/main.c",
+		"/Users/lucasbamidele/Downloads/lipo_fuleguage-v10/i2c.h",
+		"/Users/lucasbamidele/Downloads/lipo_fuel_gauge-v11/lipo_fuel_gauge-v11.sch",
+		"/Users/lucasbamidele/Downloads/lipo_fuel_gauge-v11/lipo_fuel_gauge-v11.brd",
+		"/Users/lucasbamidele/la"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "nobusca.sublime-project",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documents/7˚ SEMESTRE/SISMIC/P11)"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

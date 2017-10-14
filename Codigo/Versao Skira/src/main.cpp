@@ -58,7 +58,7 @@ int main( int argc, char **argv )
 
 	FabricaDeMapas fab;
 	Mapa mapa;
-	fab.criarMapa("Modulo3",mapa);
+	fab.criarMapa("Modulo1Teste",mapa);
 	mapa.mostrar_mapa();
 	waitKey();
 	try{

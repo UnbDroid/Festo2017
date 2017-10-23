@@ -204,7 +204,7 @@ void IrParedePelaParedeProcurandoDisco::execute(Robotino *robotino)
         std::cout<< "Esquerda 2: " << e2 << std::endl;
 
         if (std::abs(erro) < limiar2){
-              std::cout << "Alhinhei na parede" << std::endl;
+            std::cout << "Alhinhei na parede" << std::endl;
             girei  = false;
             robotino->setNaoDevoGirarParede(girei);
             ajuste = false;

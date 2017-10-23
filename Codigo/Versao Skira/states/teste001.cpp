@@ -73,7 +73,7 @@ void teste001::enter(Robotino *robotino)
 
 void teste001::execute(Robotino *robotino)
 {
-    static int objetivo_completo = 5;
+    static int objetivo_completo = 0;
     static int discos_entregues = 0;
     static int numPassosFazer = 0;
     static int numPassosFeitos = 0;
@@ -124,8 +124,8 @@ void teste001::execute(Robotino *robotino)
         robotino->setDistParede(15);
         robotino->setDistTrasParede(15);
         robotino->change_state(IrParedePelaParede::instance());
-        objetivo_completo = 8000;
-    }
+        objetivo_completo = 0;// se objetivo_completo = 0  loop horario
+    }//////////////////////////////////////////
     else if(objetivo_completo == 8000)
     {
         robotino->definirParedeAlvo(Robotino::LESTE180); // vira de costas pra parede, o robo virado pro norte, anda pro leste girando pro lado horario caso nao esteja virado pro norte

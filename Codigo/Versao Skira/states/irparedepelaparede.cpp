@@ -115,11 +115,8 @@ void IrParedePelaParede::execute(Robotino *robotino)
 
         if (std::abs(erroDist) < limiar) {
             ajuste = true;
-<<<<<<< HEAD
             robotino->setVelocity(0,0,0);//andei ate a parede
-=======
             robotino->setVelocity(0,0,0);
->>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
         }
     }
 
@@ -182,12 +179,7 @@ void IrParedePelaParede::execute(Robotino *robotino)
 
     // Se alinha na parede desejada
 
-<<<<<<< HEAD
-    if ((paredeAlvo == Robotino::NORTEN90  || paredeAlvo == Robotino::OESTE0 || paredeAlvo == Robotino::SUL90 || paredeAlvo == Robotino::LESTE180) && ajuste){
-=======
     if ((paredeAlvo == Robotino::NORTEN90  || paredeAlvo == Robotino::OESTE0 || paredeAlvo == Robotino::SUL90 || paredeAlvo == Robotino::LESTE180) && ajuste ){
->>>>>>> 2ab142e143f7a5275d43ec3494c4c49516242b3a
-
         erro = (e1-ref_e1);
         erro_int += erro*dt;
         w = Kp*erro+Ki*erro_int;

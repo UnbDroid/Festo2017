@@ -29,6 +29,13 @@ public:
 	void setHSVmin(Scalar min);
 	void setHSVmax(Scalar max);
 
+	Scalar getLABmin();
+	Scalar getLABmax();
+
+	void setLABmin(Scalar min);
+	void setLABmax(Scalar max);
+
+
 	string getType(){return type;}
 	void setType(string t){type = t;}
 
@@ -49,6 +56,7 @@ private:
 	int xPos, yPos, tipo;
 	string type;
 	Scalar HSVmin, HSVmax;
+	Scalar LABmin, LABmax;
 	Scalar Color;
 };
 

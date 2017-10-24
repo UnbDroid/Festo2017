@@ -138,6 +138,28 @@ void Object::setHSVmax(Scalar max){
 	Object::HSVmax = max;
 }
 
+Scalar Object::getLABmin(){
+
+	return Object::LABmin;
+
+}
+Scalar Object::getLABmax(){
+
+	return Object::LABmax;
+}
+
+void Object::setLABmin(Scalar min){
+
+	Object::LABmin = min;
+}
+
+
+void Object::setLABmax(Scalar max){
+
+	Object::LABmax = max;
+}
+
+
 Object& Object::operator= (Object o){
 
 	this->xPos = o.getXPos();

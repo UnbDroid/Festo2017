@@ -37,10 +37,10 @@ Mapa::~Mapa(){
 }
 
 void Mapa::definir_cores(){ //<<<<<<<<<<
-	cores[0] = Scalar(0,255,255);
-	cores[1] = Scalar(255,255,255);
-	cores[2] = Scalar(255,0,0);
-	cores[3] = Scalar(0,255,0);
+	cores[0] = Scalar(0,255,255);//(BGR)
+	cores[1] = Scalar(255,255,255);//BLACK
+	cores[2] = Scalar(255,0,0);//BLUE
+	cores[3] = Scalar(0,255,0);//GREEN
 	cores[4] = Scalar(0,140,127);
 	cores[5] = Scalar(255,255,0);
 	cores[6] = Scalar(0,255,170);

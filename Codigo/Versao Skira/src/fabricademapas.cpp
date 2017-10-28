@@ -6,48 +6,118 @@
 #define PI 3.14159265f
 
 bool FabricaDeMapas::criarMapa(string nome, Mapa& mapa){
-    if(nome == "Modulo1Teste"){
 
-        mapaModulo1Teste(mapa);
+    if(nome  == "Modulo1_001")
+    {
+        mapaModulo1_001(mapa);
         return true;
+    }
 
-    }else if(nome == "Modulo11Teste"){
+    //FESTO 2016
+    // if(nome == "Modulo1Teste"){
 
-        mapaModulo11Teste(mapa);
-        return true;
+    //     mapaModulo1Teste(mapa);
+    //     return true;
+    // }
+    // }else if(nome == "Modulo11Teste"){
 
-    }else if(nome == "Modulo2Teste"){
+    //     mapaModulo11Teste(mapa);
+    //     return true;
 
-        mapaModulo2Teste(mapa);
-        return true;
+    // }else if(nome == "Modulo2Teste"){
 
-    }else if(nome == "Modulo3Teste"){
+    //     mapaModulo2Teste(mapa);
+    //     return true;
 
-        mapaModulo3Teste(mapa);
-        return true;
+    // }else if(nome == "Modulo3Teste"){
 
-    }else if(nome == "Modulo1"){
+    //     mapaModulo3Teste(mapa);
+    //     return true;
 
-        mapaModulo1(mapa);
-        return true;
+    // }else if(nome == "Modulo1"){
 
-    }else if(nome == "Modulo2"){
+    //     mapaModulo1(mapa);
+    //     return true;
 
-        mapaModulo2(mapa);
-        return true;
+    // }else if(nome == "Modulo2"){
 
-    }else if (nome == "Modulo3"){
+    //     mapaModulo2(mapa);
+    //     return true;
 
-        mapaModulo3(mapa);
-        return true;
+    // }else if (nome == "Modulo3"){
 
-    }else{
+    //     mapaModulo3(mapa);
+    //     return true;
 
+    //}
+    else
+    {
         return false;
-
     }
 }
 
+void FabricaDeMapas::mapaModulo1_001(Mapa & mapa)
+{
+    mapa = Mapa(400, 400, 0.5);
+
+    //PAREDES
+    mapa.inserir_retangulo(Coordenadas(0,0), Coordenadas(400,1.5),mapa.PAREDE);
+    mapa.inserir_retangulo(Coordenadas(0,0), Coordenadas(1.5,400),mapa.PAREDE);
+    mapa.inserir_retangulo(Coordenadas(0,398.5), Coordenadas(400,400),mapa.PAREDE);
+    mapa.inserir_retangulo(Coordenadas(398.5,0), Coordenadas(400,400),mapa.PAREDE);
+
+    //Area inicio
+    mapa.inserir_retangulo(Coordenadas(348,2),Coordenadas(398,50),2);
+    // Linhas da area de inicio
+    mapa.inserir_retangulo(Coordenadas(348.5,2),Coordenadas(350.5,51.5),mapa.LINHA);
+    mapa.inserir_retangulo(Coordenadas(348,49.5),Coordenadas(398.5,51.5),mapa.LINHA);
+
+
+    // Area de deposito
+    mapa.inserir_retangulo(Coordenadas(0,0),Coordenadas(40,398),3);
+
+    // Linhas da area de deposito
+    mapa.inserir_retangulo(Coordenadas(0,65.5),Coordenadas(40,66.5),mapa.LINHA);//area1
+    mapa.inserir_retangulo(Coordenadas(0,132.5),Coordenadas(40,133.5),mapa.LINHA);//area2
+    mapa.inserir_retangulo(Coordenadas(0,199.5),Coordenadas(40,200.5),mapa.LINHA);//area3
+    mapa.inserir_retangulo(Coordenadas(0,265.5),Coordenadas(40,266.5),mapa.LINHA);//area1
+    mapa.inserir_retangulo(Coordenadas(0,332.5),Coordenadas(40,333.5),mapa.LINHA);//area2
+    mapa.inserir_retangulo(Coordenadas(0,399.5),Coordenadas(40,300.5),mapa.LINHA);//area3
+
+}
+
+void FabricaDeMapas::mapaArenaTreino(Mapa & mapa)
+{
+    mapa = Mapa(200, 200, 0.5);
+
+    //PAREDES
+    mapa.inserir_retangulo(Coordenadas(0,0), Coordenadas(200,1.5),mapa.PAREDE);
+    mapa.inserir_retangulo(Coordenadas(0,0), Coordenadas(1.5,200),mapa.PAREDE);
+    mapa.inserir_retangulo(Coordenadas(0,198.5), Coordenadas(200,200),mapa.PAREDE);
+    mapa.inserir_retangulo(Coordenadas(198.5,0), Coordenadas(200,200),mapa.PAREDE);
+
+    //Area inicio
+    mapa.inserir_retangulo(Coordenadas(148,2),Coordenadas(198,50),2);
+    // Linhas da area de inicio
+    mapa.inserir_retangulo(Coordenadas(148.5,2),Coordenadas(150.5,51.5),mapa.LINHA);
+    mapa.inserir_retangulo(Coordenadas(148,49.5),Coordenadas(198.5,51.5),mapa.LINHA);
+
+
+    // Area de deposito
+    mapa.inserir_retangulo(Coordenadas(0,0),Coordenadas(40,198),3);
+
+    // Linhas da area de deposito
+    mapa.inserir_retangulo(Coordenadas(0,35.5),Coordenadas(40,36.5),mapa.LINHA);//area1
+    mapa.inserir_retangulo(Coordenadas(0,70.5),Coordenadas(40,71.5),mapa.LINHA);//area2
+    mapa.inserir_retangulo(Coordenadas(0,105.5),Coordenadas(40,106.5),mapa.LINHA);//area3
+    mapa.inserir_retangulo(Coordenadas(0,140.5),Coordenadas(40,141.5),mapa.LINHA);//area1
+    mapa.inserir_retangulo(Coordenadas(0,175.5),Coordenadas(40,176.5),mapa.LINHA);//area2
+    mapa.inserir_retangulo(Coordenadas(0,199.5),Coordenadas(40,200.5),mapa.LINHA);//area3
+
+}
+
+
+////// FESTO 2016
 void FabricaDeMapas::mapaModulo1Teste(Mapa & mapa){
 
     mapa = Mapa(200, 200, 0.5);

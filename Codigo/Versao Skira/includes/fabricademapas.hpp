@@ -15,6 +15,13 @@ public:
     bool criarMapa(string, Mapa&);
 
 private:
+
+    //FESTO 2017
+    // Mapas Testes
+    void mapaModulo1_001(Mapa&);
+
+
+    //FESTO 2016
     // Mapas testes
     void mapaModulo1Teste(Mapa&);
     void mapaModulo11Teste(Mapa&);

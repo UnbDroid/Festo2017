@@ -98,37 +98,11 @@ void teste003Locomocao::execute(Robotino *robotino)
 
     if (objetivo_completo == 0)
     {
-        robotino->definirParedeAlvo(Robotino::LESTE180); // vira de costas pra parede, o robo virado pro norte, anda pro leste girando pro lado horario caso nao esteja virado pro norte
-        robotino->setDistParede(15);
-        robotino->setDistTrasParede(15);
-        robotino->change_state(IrParedePelaParede::instance());
-        objetivo_completo = 1; //mude aki pra pular objetivos/estados
+        robotino->definirObjetoAlvo(Robotino::VERMELHO);
+        robotino->change_state(SeguirCor::instance());
+        objetivo_completo = 99999;
     }
-    else if(objetivo_completo == 1){
-        robotino->setDistTrasParede(15);
-        robotino->setDistParede(15);
-        robotino->setThetaR(180);
-        robotino->definirParedeAlvo(Robotino::SUL90);
-        robotino->change_state(IrParedePelaParedeProcurandoDisco::instance());
-        objetivo_completo = 0;
-    }
-    else if(objetivo_completo == 2)
-    {
-        robotino->definirParedeAlvo(Robotino::OESTE0); // vira de costas pra parede, o robo virado pro norte, anda pro leste girando pro lado horario caso nao esteja virado pro norte
-        robotino->setDistParede(15);
-        robotino->setDistTrasParede(15);
-        robotino->change_state(IrParedePelaParede::instance());
 
-        objetivo_completo = 3;
-    }
-    else if(objetivo_completo == 3){
-        robotino->setDistTrasParede(15);
-        robotino->definirParedeAlvo(Robotino::NORTEN90);
-        robotino->setDistParede(15);
-        robotino->setThetaR(180);
-        robotino->change_state(IrParedePelaParedeProcurandoDisco::instance());
-        objetivo_completo = 0;
-    }
     else if(objetivo_completo == 99999)
     {
         std::cout << "TERMINOU" << endl;

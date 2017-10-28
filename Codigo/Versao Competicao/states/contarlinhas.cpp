@@ -59,11 +59,11 @@ void ContarLinhas::execute(Robotino *robotino)
         viMetal = true;
         robotino->setOdometry(760 , robotino->odometryY(), 180);
         if (numeroLinhas == 1){
-            robotino->setCorDiscoDeposito(Object("blue"), Object("red"));
+            robotino->setCorDiscoDeposito(Object("red"), Object("red"));
         }else if (numeroLinhas == 2){
-            robotino->setCorDiscoDeposito(Object("yellow"), Object("blue"));
+            robotino->setCorDiscoDeposito(Object("yellow"), Object("yellow"));
         }else if (numeroLinhas == 3){
-            robotino->setCorDiscoDeposito(Object("yellow"), Object("red"));
+            robotino->setCorDiscoDeposito(Object("blue"), Object("blue"));
         }
         robotino->change_state(robotino->previous_state());
         viMetal = false;

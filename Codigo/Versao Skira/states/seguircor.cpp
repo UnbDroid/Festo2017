@@ -249,5 +249,6 @@ void SeguirCor::execute(Robotino *robotino)
 
 void SeguirCor::exit(Robotino *robotino) {
 	std::cout << "O disco está na garra\n";
+
 	robotino->setVelocity(0,0,0);
 }

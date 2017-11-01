@@ -52,6 +52,7 @@
 #define VOLTARINICIO 50
 #define  RE 10// era 30
 
+
 //*****************************************************************************************************************
 // teste003Locomocao
 //*****************************************************************************************************************
@@ -98,9 +99,28 @@ void teste003Locomocao::execute(Robotino *robotino)
 
     if (objetivo_completo == 0)
     {
-        robotino->definirObjetoAlvo(Robotino::VERMELHO);
+        /*robotino->definirObjetoAlvo(Robotino::VERMELHO);
         robotino->change_state(SeguirCor::instance());
-        objetivo_completo = 99999;
+        objetivo_completo = 99999;*/
+        robotino->change_state(IdentificarCor::instance());
+        //objetivo_completo=1;
+        /*robotino->onLeds();
+        usleep(500000);
+        robotino->offLeds();
+        usleep(500000);*/
+
+         /*robotino->lightLed(7,0);
+        usleep(500000);
+        robotino->lightLed(5,0);
+        usleep(500000);
+        robotino->lightLed(6,0);
+        usleep(500000);
+       robotino->lightLed(7,0);
+        usleep(500000);
+        robotino->lightLed(5,0);
+        usleep(500000);
+        robotino->lightLed(6,0);
+        usleep(500000);*/
     }
 
     else if(objetivo_completo == 99999)

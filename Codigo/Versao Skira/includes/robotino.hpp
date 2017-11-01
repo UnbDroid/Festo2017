@@ -80,13 +80,22 @@ public:
         AMOR = 2
     };
 
+    enum OutLed: unsigned int{
+        LED_VERMELHO = 5,
+        LED_AMARELO = 6,
+        LED_AZUL = 7
+    };
+
     //void definirEstado();
 
     // Return the bumper state
     bool bumper();
 
-    //Lights up led
+    //Led lights
     bool lightLed(unsigned int, bool);
+    void offLeds();
+    void onLeds();
+
 
     // Odometry values
     float odometryX();
@@ -156,6 +165,11 @@ public:
     Object area3disco1;
     Object area3disco2;
     Object area3discoFaltando;
+
+    /*//Variaveis LEDs
+    int LED_VERMELHO;
+    int LED_AMARELO;
+    int LED_AZUL;*/
 
     void definirObjetoAlvo(int);
 

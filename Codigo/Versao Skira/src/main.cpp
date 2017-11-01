@@ -56,11 +56,11 @@ using namespace rec::robotino::com;
 int main( int argc, char **argv )
 {
 
-	FabricaDeMapas fab;
+	/*FabricaDeMapas fab;
 	Mapa mapa;
 	fab.criarMapa("Modulo1_001",mapa);
 	mapa.mostrar_mapa();
-	waitKey();
+	waitKey();*/
 	try{
 		std::string hostname = "172.26.201.1";
 		if( argc > 1 )
@@ -69,7 +69,6 @@ int main( int argc, char **argv )
 		}
 		//std::cout << "PASSOU AKI CARALHO\n";
 		Robotino robo(hostname.c_str(), teste003Locomocao::instance(),Coordenadas(175,-193,180));//Coordenadas(174,-198,180));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
-
 		while(true){
 
 			 try{

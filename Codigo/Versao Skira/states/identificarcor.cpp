@@ -171,11 +171,23 @@ void IdentificarCor::execute(Robotino *robotino)
     inRange(HSV,blue.getHSVmin(),blue.getHSVmax(),threshold);
     morphOps(threshold);
     azul = trackFilteredObject(blue,threshold,HSV,cameraFeed, robotino);
+    /*if (azul>0){
+        robotino->lightLed(Robotino::LED_AZUL, 1);
+    }
+    else{
+        robotino->lightLed(Robotino::LED_AZUL, 0);
+    }*/
     //then yellows
     cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
     inRange(HSV,yellow.getHSVmin(),yellow.getHSVmax(),threshold);
     morphOps(threshold);
     amarelo = trackFilteredObject(yellow,threshold,HSV,cameraFeed, robotino);
+    /*if (amarelo>0){
+        robotino->lightLed(Robotino::LED_AMARELO, 1);
+    }
+    else{
+        robotino->lightLed(Robotino::LED_AMARELO, 0);
+    }*/
     //then reds
     cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
     inRange(HSV,red.getHSVmin(),red.getHSVmax(),thresholdr1);
@@ -183,6 +195,12 @@ void IdentificarCor::execute(Robotino *robotino)
     bitwise_or(thresholdr1,thresholdr2, threshold);
     morphOps(threshold);
     vermelho = trackFilteredObject(red,threshold,HSV,cameraFeed, robotino);
+    /*if (vermelho>0){
+        robotino->lightLed(Robotino::LED_VERMELHO, 1);
+    }
+    else{
+        robotino->lightLed(Robotino::LED_VERMELHO, 0);
+    }*/
 
     //then blacks
     // cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);

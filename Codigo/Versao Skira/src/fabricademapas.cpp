@@ -86,7 +86,7 @@ void FabricaDeMapas::mapaModulo1_001(Mapa & mapa)
 
 }
 
-void FabricaDeMapas::mapaArenaTreino(Mapa & mapa)
+/*void FabricaDeMapas::mapaArenaTreino(Mapa & mapa)
 {
     mapa = Mapa(200, 200, 0.5);
 
@@ -114,7 +114,7 @@ void FabricaDeMapas::mapaArenaTreino(Mapa & mapa)
     mapa.inserir_retangulo(Coordenadas(0,175.5),Coordenadas(40,176.5),mapa.LINHA);//area2
     mapa.inserir_retangulo(Coordenadas(0,199.5),Coordenadas(40,200.5),mapa.LINHA);//area3
 
-}
+}*/
 
 
 ////// FESTO 2016

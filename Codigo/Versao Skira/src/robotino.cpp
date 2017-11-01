@@ -14,6 +14,7 @@
 #define ACELERAR 2
 
 
+
 Robotino::Robotino(const char *hostname,
     State<Robotino> *initial_state, Coordenadas pontoInicial):
     BaseCom(hostname),
@@ -50,12 +51,14 @@ Robotino::Robotino(const char *hostname,
 
 void Robotino::construir_mapa(){
     FabricaDeMapas criador;
-    criador.criarMapa("Modulo3",mapa);
+    criador.criarMapa("Modulo1_001",mapa);
 }
 
 Robotino::~Robotino(){
     this->disconnect();
 }
+
+
 
 bool Robotino::lightLed(unsigned int digitalPort, bool onOff)// Acende o Led na porta escolhida
 {
@@ -71,6 +74,29 @@ bool Robotino::lightLed(unsigned int digitalPort, bool onOff)// Acende o Led na 
                                                 // entao se cair aki o erro é no objeto led
         }
     }
+}
+void Robotino::offLeds(){
+    try{
+        lightLed(Robotino::LED_AZUL, 0);
+        lightLed(Robotino::LED_AMARELO, 0);
+        lightLed(Robotino::LED_VERMELHO, 0);
+    }catch(RobotinoException e)
+        {
+            std::cout << "Erro no objeto led\n";// a cond já checa se o numero da porta está errado,
+                                                // entao se cair aki o erro é no objeto led
+        }
+}
+
+void Robotino::onLeds(){
+    try{
+        lightLed(Robotino::LED_AZUL, 1);
+        lightLed(Robotino::LED_AMARELO, 1);
+        lightLed(Robotino::LED_VERMELHO, 1);
+    }catch(RobotinoException e)
+        {
+            std::cout << "Erro no objeto led\n";// a cond já checa se o numero da porta está errado,
+                                                // entao se cair aki o erro é no objeto led
+        }
 }
 
 bool Robotino::bumper(){

@@ -7,7 +7,7 @@
 #include "controleposicao.hpp"
 #include "coordenadas.hpp"
 #include "girar.hpp"
-#include "identificarcor2.hpp"
+#include "identificarcor.hpp"
 #include "procurarcor.hpp"
 #include "seguircor.hpp"
 #include "irparaparede.hpp"
@@ -98,7 +98,7 @@ void testeVisao::execute(Robotino *robotino)
 
     if (objetivo_completo == 0)
     {
-        robotino->change_state(IdentificarCor2::instance());
+        robotino->change_state(IdentificarCor::instance());
     }
     else if(objetivo_completo == 99999)
     {

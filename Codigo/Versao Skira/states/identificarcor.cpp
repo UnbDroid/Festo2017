@@ -9,7 +9,7 @@ const int FRAME_HEIGHT = 480;
 //max number of objects to be detected in frame
 const int MAX_NUM_OBJECTS=50;
 //minimum and maximum object area
-const int MIN_OBJECT_AREA = 20*20;
+const int MIN_OBJECT_AREA = 8*8;
 const int MAX_OBJECT_AREA = FRAME_HEIGHT*FRAME_WIDTH/1.5;
 //names that will appear at the top of each window
 const string windowName = "Original Image";
@@ -146,19 +146,25 @@ void IdentificarCor::execute(Robotino *robotino)
 {
     //Matrix to store each frame of the webcam feed
     static Mat cameraFeed;
-    static Mat threshold;
-    static Mat thresholdr1;
-    static Mat thresholdr2;
-    static Mat HSV;
-    static Mat src;
+    //static Mat threshold;
+    //static Mat thresholdr1;
+    //static Mat thresholdr2;
+    static Mat YCrCb;
+    static Mat Y,B,R;
+    //static Mat src;
+
+    static int erode_size = 2;
+    static int dilate_size = 2;
+    static Mat element = getStructuringElement( MORPH_CROSS,Size(2*erode_size+1,2*erode_size+1));
+    static Mat dlement = getStructuringElement( MORPH_ELLIPSE,Size(2*dilate_size+1,2*dilate_size+1));
 
     //cv::waitKey();
 
     cameraFeed = robotino->getImage();
-    src = cameraFeed;
+    //src = cameraFeed;
 
     //convert frame from BGR to HSV colorspace
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
+    //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
 
 
     //create some temp fruit objects so that
@@ -166,11 +172,16 @@ void IdentificarCor::execute(Robotino *robotino)
     Object blue("blue"), yellow("yellow"), red("red"), black("black");
     bool azul, amarelo, vermelho, preto;
 
+    cvtColor(cameraFeed,YCrCb,COLOR_BGR2YCrCb);
+
     //first find blue objects
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
-    inRange(HSV,blue.getHSVmin(),blue.getHSVmax(),threshold);
-    morphOps(threshold);
-    azul = trackFilteredObject(blue,threshold,HSV,cameraFeed, robotino);
+
+    inRange(YCrCb,blue.getHSVmin(),blue.getHSVmax(),B);
+    //morphOps(threshold);
+    erode(B,B,element);
+    dilate(B,B,dlement);
+    imshow("blue",B);
+    azul = trackFilteredObject(blue,B,YCrCb,cameraFeed, robotino);
     /*if (azul>0){
         robotino->lightLed(Robotino::LED_AZUL, 1);
     }
@@ -178,10 +189,11 @@ void IdentificarCor::execute(Robotino *robotino)
         robotino->lightLed(Robotino::LED_AZUL, 0);
     }*/
     //then yellows
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
-    inRange(HSV,yellow.getHSVmin(),yellow.getHSVmax(),threshold);
-    morphOps(threshold);
-    amarelo = trackFilteredObject(yellow,threshold,HSV,cameraFeed, robotino);
+
+    inRange(YCrCb,yellow.getHSVmin(),yellow.getHSVmax(),Y);
+    //morphOps(threshold);
+    imshow("yellow",Y);
+    amarelo = trackFilteredObject(yellow,Y,YCrCb,cameraFeed, robotino);
     /*if (amarelo>0){
         robotino->lightLed(Robotino::LED_AMARELO, 1);
     }
@@ -189,12 +201,15 @@ void IdentificarCor::execute(Robotino *robotino)
         robotino->lightLed(Robotino::LED_AMARELO, 0);
     }*/
     //then reds
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
-    inRange(HSV,red.getHSVmin(),red.getHSVmax(),thresholdr1);
-    inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
-    bitwise_or(thresholdr1,thresholdr2, threshold);
-    morphOps(threshold);
-    vermelho = trackFilteredObject(red,threshold,HSV,cameraFeed, robotino);
+    //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
+    inRange(YCrCb,red.getHSVmin(),red.getHSVmax(),R);
+    erode(R,R,element);
+    dilate(R,R,dlement);
+    imshow("red",R);
+    //inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
+    //bitwise_or(thresholdr1,thresholdr2, threshold);
+    //morphOps(threshold);
+    vermelho = trackFilteredObject(red,R,YCrCb,cameraFeed, robotino);
     /*if (vermelho>0){
         robotino->lightLed(Robotino::LED_VERMELHO, 1);
     }

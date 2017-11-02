@@ -108,7 +108,7 @@ void teste003Locomocao::execute(Robotino *robotino)
             init_count++;
         }
         else{
-            objetivo_completo=-1;
+            objetivo_completo=-2;
         }
         //objetivo_completo=1;
         /*robotino->onLeds();
@@ -129,15 +129,11 @@ void teste003Locomocao::execute(Robotino *robotino)
         robotino->lightLed(6,0);
         usleep(500000);*/
     }
-<<<<<<< HEAD
-    else if(objetivo_completo==-1){
+    else if(objetivo_completo==-2){
         robotino->definirObjetoAlvo(Robotino::VERMELHO);
         robotino->change_state(SeguirCor::instance());
     }
-    else if(objetivo_completo == 0){
-=======
     else if(objetivo_completo == -1){
->>>>>>> 81d18685eaf8f162af5631fb60776afb3226c203
         //robotino->adicionarCorFaltando(Robotino::AMARELO);
         //robotino->definirObjetoAlvo(Robotino::AMARELO);
         robotino->definirParedeAlvo(Robotino::OESTE180);

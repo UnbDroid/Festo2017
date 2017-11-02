@@ -42,7 +42,7 @@ void IdentificarCor2::enter(Robotino *robotino)
 {
     std::cout << "Entrando no estado IdentificarCor...\n";
 }
-/*
+
 string intToString(int number){
 
     std::stringstream ss;
@@ -150,15 +150,10 @@ bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed
     return objectFound;
 }
 
-*/
+
 void IdentificarCor2::execute(Robotino *robotino)
 {
     //Matrix to store each frame of the webcam feed
-    static Mat cameraFeed;
-    static Mat threshold;
-    static Mat threshold1;
-    static Mat threshold2;
-
     static Mat src;
 
     static int erode_size = 2;
@@ -191,9 +186,6 @@ void IdentificarCor2::execute(Robotino *robotino)
     static int minCbY = 0;
     static int maxCbY = 95;
 
-    //cv::waitKey();
-
-
 
     namedWindow("Painel1");
     createTrackbar("minYR","Painel1",&minYR,256);
@@ -222,93 +214,27 @@ void IdentificarCor2::execute(Robotino *robotino)
     createTrackbar("maxCbY","Painel3",&maxCbY,256);
 
 
-
-    cameraFeed = robotino->getImage();
-    src = cameraFeed;
-
+    src = robotino->getImage();
     imshow("BGR",src);
 
+    Object blue("blue"), yellow("yellow"), red("red"), black("black");
+    bool azul, amarelo, vermelho, preto;
+
+
     Mat temp;
-
+    Mat B,R,Y;
     Mat element = getStructuringElement( MORPH_CROSS,Size(2*erode_size+1,2*erode_size+1));
-    //dilate(src,temp,element);
-    //imshow("dilate",temp);
-    //medianBlur(temp,temp,3);
-    //imshow("median",temp);
-    //erode(temp,temp,element);
-    //imshow("erode",temp);
-
-    //convert frame from BGR to HSV colorspace
-    /*
-    vector<Mat> lab(3);
-    vector<Mat> hsv(3);
-    cvtColor(src,temp,CV_BGR2Lab);
-    split(temp,lab);
-    imshow("L",lab[0]);
-    imshow("a",lab[1]);
-    imshow("b",lab[2]);
-    cvtColor(src,temp,CV_BGR2HSV);
-    split(temp,hsv);
-    imshow("H",hsv[0]);
-    imshow("S",hsv[1]);
-    imshow("V",hsv[2]);
-
-
-    erode(lab[1],lab[1],element);
-    imshow("erodeA",lab[1]);
-    GaussianBlur(lab[2],lab[2],Size(3,3),3,3,1 );
-    imshow("gaussianB",lab[2]);
-    equalizeHist(lab[0],lab[0]);
-    imshow("eqL",lab[0]);
-    */
+    Mat dlement = getStructuringElement( MORPH_ELLIPSE,Size(2*erode_size+1,2*erode_size+1));
 
 //Mudança de espaço de cor para YCrCb
-    cvtColor(src,temp,CV_BGR2YCrCb);
-
+cvtColor(src,temp,CV_BGR2YCrCb);
+//Mostra partes
+/*
     vector<Mat> ycrcb(3);
     split(temp,ycrcb);
     imshow("Y",ycrcb[0]);
     imshow("Cr",ycrcb[1]);
     imshow("Cb",ycrcb[2]);
-//Filtragem
-    /*
-    erode(ycrcb[0],ycrcb[0],element);
-    imshow("erodeY",ycrcb[0]);
-    dilate(ycrcb[0],ycrcb[0],element);
-    imshow("erode_dilateY",ycrcb[0]);
-    medianBlur(ycrcb[1],ycrcb[1],3);
-    imshow("medianCr",ycrcb[1]);
-    medianBlur(ycrcb[2],ycrcb[2],3);
-    imshow("medianCb",ycrcb[2]);
-    */
-    /*
-    erode(ycrcb[1],ycrcb[1],element);
-    imshow("erodeCr",ycrcb[1]);
-    dilate(ycrcb[1],ycrcb[1],element);
-    imshow("erode_dilateCr",ycrcb[1]);
-    erode(ycrcb[2],ycrcb[2],element);
-    imshow("erodeCb",ycrcb[2]);
-    dilate(ycrcb[2],ycrcb[2],element);
-    imshow("erode_dilateCb",ycrcb[2]);
-    */
-    /*
-    GaussianBlur(ycrcb[1],ycrcb[1],Size(3,3),3,3,1);
-    imshow("GaussianCr",ycrcb[1]);
-    GaussianBlur(ycrcb[2],ycrcb[2],Size(3,3),3,3,1);
-    imshow("GaussianCb",ycrcb[2]);
-    */
-
-
-    /*
-    erode(temp,temp,element);
-    medianBlur(temp,temp,3);
-    dilate(temp,temp,element);
-    imshow("Filtro",temp);
-    ycrcb.clear();
-    split(temp,ycrcb);
-    */
-
-
 
     inRange(ycrcb[0],Scalar(minYB),Scalar(maxYB),temp);
     imshow("BlueY",temp);
@@ -318,63 +244,27 @@ void IdentificarCor2::execute(Robotino *robotino)
     imshow("BlueCb",temp);
 
     merge(ycrcb,temp);
-    imshow("NovoYCrCb",temp);
+*/
 
 
 
-    Mat B,R,Y;
     inRange(temp,Scalar(minYB,minCrB,minCbB),Scalar(maxYB,maxCrB,maxCbB),B);
     imshow("Blue",B);
+    erode(B,B,element);
+    dilate(B,B,dlement);
+    imshow("blueFim",B);
+    azul = trackFilteredObject(blue,B,temp,src, robotino);
 
     inRange(temp,Scalar(minYR,minCrR,minCbR),Scalar(maxYR,maxCrR,maxCbR),R);
     imshow("Red",R);
+    erode(R,R,element);
+    dilate(R,R,dlement);
+    imshow("RedFim",R);
+    vermelho = trackFilteredObject(red,R,temp,src, robotino);
 
     inRange(temp,Scalar(minYY,minCrY,minCbY),Scalar(maxYY,maxCrY,maxCbY),Y);
     imshow("Yellow",Y);
-
-    erode(B,B,element);
-    dilate(B,B,element);
-    imshow("blueFim",B);
-
-    erode(R,R,element);
-    dilate(R,R,element);
-    imshow("RedFim",R);
-
-    /*
-    erode(,temp,element);
-    erode(temp,temp,element);
-    dilate(temp,temp,element);
-    dilate(temp,temp,element);
-    cvtColor(temp,temp,CV_Lab2BGR);
-    imshow("erodeLab",temp);
-    */
-
-
-    waitKey(1);
-
-    /*
-    //create some temp fruit objects so that
-    //we can use their member functions/information
-    Object blue("blue"), yellow("yellow"), red("red"), black("black");
-    bool azul, amarelo, vermelho, preto;
-
-    //first find blue objects
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
-    inRange(HSV,blue.getHSVmin(),blue.getHSVmax(),threshold);
-    morphOps(threshold);
-    azul = trackFilteredObject(blue,threshold,HSV,cameraFeed, robotino);
-    //then yellows
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
-    inRange(HSV,yellow.getHSVmin(),yellow.getHSVmax(),threshold);
-    morphOps(threshold);
-    amarelo = trackFilteredObject(yellow,threshold,HSV,cameraFeed, robotino);
-    //then reds
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
-    inRange(HSV,red.getHSVmin(),red.getHSVmax(),thresholdr1);
-    inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
-    bitwise_or(thresholdr1,thresholdr2, threshold);
-    morphOps(threshold);
-    vermelho = trackFilteredObject(red,threshold,HSV,cameraFeed, robotino);
+    amarelo = trackFilteredObject(yellow,Y,temp,src, robotino);
 
     //then blacks
     // cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
@@ -392,7 +282,7 @@ void IdentificarCor2::execute(Robotino *robotino)
     //if (preto)
        // cout << "Preto: " << robotino->objetosPretos.size() << endl;
 
-    imshow(windowName,cameraFeed);
+    imshow(windowName,src);
     cvMoveWindow(windowName.c_str(),500,300);
     //imshow(windowName1,HSV);
 
@@ -403,7 +293,7 @@ void IdentificarCor2::execute(Robotino *robotino)
     //robotino->definirObjetoAlvo(Robotino::AZUL);
 
     //robotino->change_state(SeguirCor::instance());
-    */
+
     robotino->change_state(robotino->previous_state());
 }
 

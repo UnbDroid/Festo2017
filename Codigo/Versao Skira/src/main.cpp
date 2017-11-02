@@ -30,6 +30,7 @@
 
 #include "teste001.hpp"
 #include "teste003Locomocao.hpp"
+#include "testeVisao.hpp"
 
 
 #include "modulo3louco.hpp"
@@ -56,11 +57,6 @@ using namespace rec::robotino::com;
 int main( int argc, char **argv )
 {
 
-	// FabricaDeMapas fab;
-	// Mapa mapa;
-	// fab.criarMapa("mapaArenaTreino",mapa);
-	// mapa.mostrar_mapa();
-	// waitKey();
 	try{
 		std::string hostname = "172.26.201.1";
 		if( argc > 1 )
@@ -68,7 +64,7 @@ int main( int argc, char **argv )
 			hostname = argv[1];
 		}
 		//std::cout << "PASSOU AKI CARALHO\n";
-		Robotino robo(hostname.c_str(), teste003Locomocao::instance(),Coordenadas(174.,-198,180));//Coordenadas(174,-198,180));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
+		Robotino robo(hostname.c_str(), testeVisao::instance(),Coordenadas(174.,-198,180));//Coordenadas(174,-198,180));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
 		while(true){
 
 			 try{

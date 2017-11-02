@@ -1,7 +1,16 @@
-#include "identificarcor.hpp"
+#include "identificarcor2.hpp"
 #include "robotino.hpp"
 #include "object.hpp"
 #include "seguircor.hpp"
+#include <opencv2/opencv.hpp>
+#include "opencv2/imgproc/imgproc.hpp"
+#include <string>
+#include <iostream>
+#include <cstdlib>
+
+#include "opencv2/core/core.hpp"
+#include <vector>
+
 
 //default capture width and height
 const int FRAME_WIDTH = 640;
@@ -9,7 +18,7 @@ const int FRAME_HEIGHT = 480;
 //max number of objects to be detected in frame
 const int MAX_NUM_OBJECTS=50;
 //minimum and maximum object area
-const int MIN_OBJECT_AREA = 8*8;
+const int MIN_OBJECT_AREA = 10*10;
 const int MAX_OBJECT_AREA = FRAME_HEIGHT*FRAME_WIDTH/1.5;
 //names that will appear at the top of each window
 const string windowName = "Original Image";
@@ -19,29 +28,29 @@ const string windowName = "Original Image";
 // IdentificarCor
 //*****************************************************************************************************************
 
-IdentificarCor  *IdentificarCor::instance()
+IdentificarCor2  *IdentificarCor2::instance()
 {
-    static IdentificarCor  IdentificarCorStateInstance;
+    static IdentificarCor2  IdentificarCorStateInstance;
     return &IdentificarCorStateInstance;
 }
 
-IdentificarCor::IdentificarCor() {}
+IdentificarCor2::IdentificarCor2() {}
 
-IdentificarCor::~IdentificarCor() {}
+IdentificarCor2::~IdentificarCor2() {}
 
-void IdentificarCor::enter(Robotino *robotino)
+void IdentificarCor2::enter(Robotino *robotino)
 {
     std::cout << "Entrando no estado IdentificarCor...\n";
 }
 
-string intToString(int number){
+string IdentificarCor2::intToString(int number){
 
     std::stringstream ss;
     ss << number;
     return ss.str();
 }
 
-void drawObject(vector<Object> theObjects,Mat &frame, Mat &temp, vector< vector<Point> > contours, vector<Vec4i> hierarchy){
+void IdentificarCor2::drawObject(vector<Object> theObjects,Mat &frame, Mat &temp, vector< vector<Point> > contours, vector<Vec4i> hierarchy){
 
     for(int i =0; i<theObjects.size(); i++){
     cv::drawContours(frame,contours,i,theObjects.at(i).getColor(),3,8,hierarchy);
@@ -51,6 +60,7 @@ void drawObject(vector<Object> theObjects,Mat &frame, Mat &temp, vector< vector<
     }
 }
 
+/*
 void morphOps(Mat &thresh){
 
     //create structuring element that will be used to "dilate" and "erode" image.
@@ -68,8 +78,8 @@ void morphOps(Mat &thresh){
    // imshow("morph2",thresh);
    // waitKey(1);
 }
-
-bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed, Robotino* robotino){
+*/
+bool IdentificarCor2::trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed, Robotino* robotino){
 
     vector <Object> objects;
     Mat temp;
@@ -91,10 +101,13 @@ bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed
         robotino->objetosAmarelos.clear() ;
     }
 
+
+
     if (hierarchy.size() > 0) {
         int numObjects = hierarchy.size();
         //if number of objects greater than MAX_NUM_OBJECTS we have a noisy filter
         if(numObjects<MAX_NUM_OBJECTS){
+            cout<<numObjects<<endl;
             for (int index = 0; index >= 0; index = hierarchy[index][0]) {
 
                 Moments moment = moments((cv::Mat)contours[index]);
@@ -104,6 +117,7 @@ bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed
         //if the area is the same as the 3/2 of the image size, probably just a bad filter
         //we only want the object with the largest area so we safe a reference area each
                 //iteration and compare it to the area in the next iteration.
+                cout<<area<<endl;
                 if(area>MIN_OBJECT_AREA){
 
                     Object object;
@@ -142,80 +156,120 @@ bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed
 }
 
 
-void IdentificarCor::execute(Robotino *robotino)
+void IdentificarCor2::execute(Robotino *robotino)
 {
     //Matrix to store each frame of the webcam feed
-    static Mat cameraFeed;
-    //static Mat threshold;
-    //static Mat thresholdr1;
-    //static Mat thresholdr2;
-    static Mat YCrCb;
-    static Mat Y,B,R;
-    //static Mat src;
+    static Mat src;
 
     static int erode_size = 2;
-    static int dilate_size = 2;
-    static Mat element = getStructuringElement( MORPH_CROSS,Size(2*erode_size+1,2*erode_size+1));
-    static Mat dlement = getStructuringElement( MORPH_ELLIPSE,Size(2*dilate_size+1,2*dilate_size+1));
 
-    //cv::waitKey();
+    static int minYB = 20;
+    static int maxYB = 85;
+    static int minCrB = 100;
+    static int maxCrB = 125;
+    static int minCbB = 125;
+    static int maxCbB = 170;
 
-    cameraFeed = robotino->getImage();
-    //src = cameraFeed;
+    static int minYG = 0;
+    static int maxYG = 100;
+    static int minCrG = 110;
+    static int maxCrG = 140;
+    static int minCbG = 110;
+    static int maxCbG = 140;
 
-    //convert frame from BGR to HSV colorspace
-    //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
+    static int minYR = 20;
+    static int maxYR = 100;
+    static int minCrR = 145;
+    static int maxCrR = 170;
+    static int minCbR = 100;
+    static int maxCbR = 120;
+
+    static int minYY = 100;
+    static int maxYY = 165;
+    static int minCrY = 140;
+    static int maxCrY = 170;
+    static int minCbY = 0;
+    static int maxCbY = 95;
+
+    /*
+    namedWindow("Painel1");
+    createTrackbar("minYR","Painel1",&minYR,256);
+    createTrackbar("maxYR","Painel1",&maxYR,256);
+    createTrackbar("minCrR","Painel1",&minCrR,256);
+    createTrackbar("maxCrR","Painel1",&maxCrR,256);
+    createTrackbar("minCbR","Painel1",&minCbR,256);
+    createTrackbar("maxCbR","Painel1",&maxCbR,256);
 
 
-    //create some temp fruit objects so that
-    //we can use their member functions/information
+    namedWindow("Painel2");
+    createTrackbar("minYB","Painel2",&minYB,256);
+    createTrackbar("maxYB","Painel2",&maxYB,256);
+    createTrackbar("minCrB","Painel2",&minCrB,256);
+    createTrackbar("maxCrB","Painel2",&maxCrB,256);
+    createTrackbar("minCbB","Painel2",&minCbB,256);
+    createTrackbar("maxCbB","Painel2",&maxCbB,256);
+    createTrackbar("erode","Painel2",&erode_size,20);
+
+    namedWindow("Painel3");
+    createTrackbar("minYY","Painel3",&minYY,256);
+    createTrackbar("maxYY","Painel3",&maxYY,256);
+    createTrackbar("minCrY","Painel3",&minCrY,256);
+    createTrackbar("maxCrY","Painel3",&maxCrY,256);
+    createTrackbar("minCbY","Painel3",&minCbY,256);
+    createTrackbar("maxCbY","Painel3",&maxCbY,256);
+    */
+
+    src = robotino->getImage();
+    //imshow("BGR",src);
+
     Object blue("blue"), yellow("yellow"), red("red"), black("black");
     bool azul, amarelo, vermelho, preto;
 
-    cvtColor(cameraFeed,YCrCb,COLOR_BGR2YCrCb);
 
-    //first find blue objects
+    Mat temp;
+    Mat B,R,Y;
+    Mat element = getStructuringElement( MORPH_CROSS,Size(2*erode_size+1,2*erode_size+1));
+    Mat dlement = getStructuringElement( MORPH_ELLIPSE,Size(2*erode_size+1,2*erode_size+1));
 
-    inRange(YCrCb,blue.getHSVmin(),blue.getHSVmax(),B);
-    //morphOps(threshold);
+//Mudança de espaço de cor para YCrCb
+cvtColor(src,temp,CV_BGR2YCrCb);
+//Mostra partes
+/*
+    vector<Mat> ycrcb(3);
+    split(temp,ycrcb);
+    imshow("Y",ycrcb[0]);
+    imshow("Cr",ycrcb[1]);
+    imshow("Cb",ycrcb[2]);
+
+    inRange(ycrcb[0],Scalar(minYB),Scalar(maxYB),temp);
+    imshow("BlueY",temp);
+    inRange(ycrcb[1],Scalar(minCrB),Scalar(maxCrB),temp);
+    imshow("BlueCr",temp);
+    inRange(ycrcb[2],Scalar(minCbB),Scalar(maxCbB),temp);
+    imshow("BlueCb",temp);
+
+    merge(ycrcb,temp);
+*/
+
+
+
+    inRange(temp,Scalar(minYB,minCrB,minCbB),Scalar(maxYB,maxCrB,maxCbB),B);
+    imshow("Blue",B);
     erode(B,B,element);
     dilate(B,B,dlement);
-    imshow("blue",B);
-    azul = trackFilteredObject(blue,B,YCrCb,cameraFeed, robotino);
-    /*if (azul>0){
-        robotino->lightLed(Robotino::LED_AZUL, 1);
-    }
-    else{
-        robotino->lightLed(Robotino::LED_AZUL, 0);
-    }*/
-    //then yellows
+    imshow("blueFim",B);
+    azul = trackFilteredObject(blue,B,temp,src, robotino);
 
-    inRange(YCrCb,yellow.getHSVmin(),yellow.getHSVmax(),Y);
-    //morphOps(threshold);
-    imshow("yellow",Y);
-    amarelo = trackFilteredObject(yellow,Y,YCrCb,cameraFeed, robotino);
-    /*if (amarelo>0){
-        robotino->lightLed(Robotino::LED_AMARELO, 1);
-    }
-    else{
-        robotino->lightLed(Robotino::LED_AMARELO, 0);
-    }*/
-    //then reds
-    //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
-    inRange(YCrCb,red.getHSVmin(),red.getHSVmax(),R);
+    inRange(temp,Scalar(minYR,minCrR,minCbR),Scalar(maxYR,maxCrR,maxCbR),R);
+    imshow("Red",R);
     erode(R,R,element);
     dilate(R,R,dlement);
-    imshow("red",R);
-    //inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
-    //bitwise_or(thresholdr1,thresholdr2, threshold);
-    //morphOps(threshold);
-    vermelho = trackFilteredObject(red,R,YCrCb,cameraFeed, robotino);
-    /*if (vermelho>0){
-        robotino->lightLed(Robotino::LED_VERMELHO, 1);
-    }
-    else{
-        robotino->lightLed(Robotino::LED_VERMELHO, 0);
-    }*/
+    imshow("RedFim",R);
+    vermelho = trackFilteredObject(red,R,temp,src, robotino);
+
+    inRange(temp,Scalar(minYY,minCrY,minCbY),Scalar(maxYY,maxCrY,maxCbY),Y);
+    imshow("Yellow",Y);
+    amarelo = trackFilteredObject(yellow,Y,temp,src, robotino);
 
     //then blacks
     // cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
@@ -233,8 +287,8 @@ void IdentificarCor::execute(Robotino *robotino)
     //if (preto)
        // cout << "Preto: " << robotino->objetosPretos.size() << endl;
 
-    imshow(windowName,cameraFeed);
-    cvMoveWindow(windowName.c_str(),500,300);
+    imshow("aqui",src);
+    cvMoveWindow("aqui",500,300);
     //imshow(windowName1,HSV);
 
     //delay 30ms so that screen can refresh.
@@ -244,7 +298,8 @@ void IdentificarCor::execute(Robotino *robotino)
     //robotino->definirObjetoAlvo(Robotino::AZUL);
 
     //robotino->change_state(SeguirCor::instance());
+
     robotino->change_state(robotino->previous_state());
 }
 
-void IdentificarCor::exit(Robotino *robotino) {}
+void IdentificarCor2::exit(Robotino *robotino) {}

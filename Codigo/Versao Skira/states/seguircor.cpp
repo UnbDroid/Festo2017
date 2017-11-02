@@ -174,12 +174,19 @@ void SeguirCor::execute(Robotino *robotino)
     cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
 
     if(robotino->objetoAlvo.getType() == "red"){
+        robotino->lightLed(Robotino::LED_VERMELHO, 1);
         inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),thresholdr1);
         inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
         bitwise_or(thresholdr1,thresholdr2, threshold);
-    }else{
+    }else if(robotino->objetoAlvo.getType() == "yellow"){
+        robotino->lightLed(Robotino::LED_AMARELO, 1);
         inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),threshold);
+        }else if(robotino->objetoAlvo.getType() == "blue"){
+            robotino->lightLed(Robotino::LED_AZUL, 1);
+            inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),threshold);
     }
+
+
 
     SCmorphOps(threshold);
     alvo = SCtrackFilteredObject(robotino->objetoAlvo,threshold,HSV,cameraFeed, robotino);

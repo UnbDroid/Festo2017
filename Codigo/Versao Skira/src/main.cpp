@@ -56,11 +56,11 @@ using namespace rec::robotino::com;
 int main( int argc, char **argv )
 {
 
-	FabricaDeMapas fab;
-	Mapa mapa;
-	fab.criarMapa("mapaArenaTreino",mapa);
-	mapa.mostrar_mapa();
-	waitKey();
+	// FabricaDeMapas fab;
+	// Mapa mapa;
+	// fab.criarMapa("mapaArenaTreino",mapa);
+	// mapa.mostrar_mapa();
+	// waitKey();
 	try{
 		std::string hostname = "172.26.201.1";
 		if( argc > 1 )

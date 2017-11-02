@@ -23,12 +23,21 @@ Object::Object(string name){
 		//BGR value for blue:
 		setColor(Scalar(255,0,0));*/
 
+		//using YCrCb
+		setHSVmin(Scalar(20,100,125)); //(95,120,30)
+		setHSVmax(Scalar(85,125,170));
+
+		//BGR value for blue:
+		setColor(Scalar(255,0,0));
+
+
+		/*
 		setHSVmin(Scalar(34,120,55)); // tava50
 		setHSVmax(Scalar(90,256,256));
 
 		//BGR value for green:
 		setColor(Scalar(0,255,0));
-
+		*/
 		tipo = 2;
 	}
 	if(name=="green"){
@@ -50,8 +59,13 @@ Object::Object(string name){
 		//TODO: use "calibration mode" to find HSV min
 		//and HSV max values
 
+		/*
 		setHSVmin(Scalar(20,120,123));
-		setHSVmax(Scalar(30,256,256));
+		setHSVmax(Scalar(30,256,256));*/
+
+		//using YCrCb
+		setHSVmin(Scalar(100,140,0));
+		setHSVmax(Scalar(165,170,95));
 
 		//BGR value for Red:
 		setColor(Scalar(0,255,255));
@@ -64,8 +78,13 @@ Object::Object(string name){
 		//TODO: use "calibration mode" to find HSV min
 		//and HSV max values
 
+		/*
 		setHSVmin(Scalar(140,120,0));
 		setHSVmax(Scalar(255,255,255));
+		*/
+		//using YCrCb
+		setHSVmin(Scalar(20,145,100));
+		setHSVmax(Scalar(100,170,120));
 
 		//BGR value for Red:
 		setColor(Scalar(0,0,255));

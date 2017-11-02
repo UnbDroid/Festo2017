@@ -18,7 +18,7 @@ const int FRAME_HEIGHT = 480;
 //max number of objects to be detected in frame
 const int MAX_NUM_OBJECTS=50;
 //minimum and maximum object area
-const int MIN_OBJECT_AREA = 20*20;
+const int MIN_OBJECT_AREA = 10*10;
 const int MAX_OBJECT_AREA = FRAME_HEIGHT*FRAME_WIDTH/1.5;
 //names that will appear at the top of each window
 const string windowName = "Original Image";
@@ -43,14 +43,14 @@ void IdentificarCor2::enter(Robotino *robotino)
     std::cout << "Entrando no estado IdentificarCor...\n";
 }
 
-string intToString(int number){
+string IdentificarCor2::intToString(int number){
 
     std::stringstream ss;
     ss << number;
     return ss.str();
 }
 
-void drawObject(vector<Object> theObjects,Mat &frame, Mat &temp, vector< vector<Point> > contours, vector<Vec4i> hierarchy){
+void IdentificarCor2::drawObject(vector<Object> theObjects,Mat &frame, Mat &temp, vector< vector<Point> > contours, vector<Vec4i> hierarchy){
 
     for(int i =0; i<theObjects.size(); i++){
     cv::drawContours(frame,contours,i,theObjects.at(i).getColor(),3,8,hierarchy);
@@ -60,6 +60,7 @@ void drawObject(vector<Object> theObjects,Mat &frame, Mat &temp, vector< vector<
     }
 }
 
+/*
 void morphOps(Mat &thresh){
 
     //create structuring element that will be used to "dilate" and "erode" image.
@@ -77,8 +78,8 @@ void morphOps(Mat &thresh){
    // imshow("morph2",thresh);
    // waitKey(1);
 }
-
-bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed, Robotino* robotino){
+*/
+bool IdentificarCor2::trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed, Robotino* robotino){
 
     vector <Object> objects;
     Mat temp;
@@ -100,10 +101,13 @@ bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed
         robotino->objetosAmarelos.clear() ;
     }
 
+
+
     if (hierarchy.size() > 0) {
         int numObjects = hierarchy.size();
         //if number of objects greater than MAX_NUM_OBJECTS we have a noisy filter
         if(numObjects<MAX_NUM_OBJECTS){
+            cout<<numObjects<<endl;
             for (int index = 0; index >= 0; index = hierarchy[index][0]) {
 
                 Moments moment = moments((cv::Mat)contours[index]);
@@ -113,6 +117,7 @@ bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed
         //if the area is the same as the 3/2 of the image size, probably just a bad filter
         //we only want the object with the largest area so we safe a reference area each
                 //iteration and compare it to the area in the next iteration.
+                cout<<area<<endl;
                 if(area>MIN_OBJECT_AREA){
 
                     Object object;
@@ -186,7 +191,7 @@ void IdentificarCor2::execute(Robotino *robotino)
     static int minCbY = 0;
     static int maxCbY = 95;
 
-
+    /*
     namedWindow("Painel1");
     createTrackbar("minYR","Painel1",&minYR,256);
     createTrackbar("maxYR","Painel1",&maxYR,256);
@@ -212,10 +217,10 @@ void IdentificarCor2::execute(Robotino *robotino)
     createTrackbar("maxCrY","Painel3",&maxCrY,256);
     createTrackbar("minCbY","Painel3",&minCbY,256);
     createTrackbar("maxCbY","Painel3",&maxCbY,256);
-
+    */
 
     src = robotino->getImage();
-    imshow("BGR",src);
+    //imshow("BGR",src);
 
     Object blue("blue"), yellow("yellow"), red("red"), black("black");
     bool azul, amarelo, vermelho, preto;
@@ -282,8 +287,8 @@ cvtColor(src,temp,CV_BGR2YCrCb);
     //if (preto)
        // cout << "Preto: " << robotino->objetosPretos.size() << endl;
 
-    imshow(windowName,src);
-    cvMoveWindow(windowName.c_str(),500,300);
+    imshow("aqui",src);
+    cvMoveWindow("aqui",500,300);
     //imshow(windowName1,HSV);
 
     //delay 30ms so that screen can refresh.

@@ -97,7 +97,7 @@ void teste003Locomocao::execute(Robotino *robotino)
 // Saindo da area de inicio e indo para a area de deposito 6------------------------------------------------------------------------------------------
 //ANDA NAS 4 paredes da arena seguindo parede no sentido horário
 
-    if (objetivo_completo == -1)
+    if (objetivo_completo == 0)
     {
         /*robotino->definirObjetoAlvo(Robotino::VERMELHO);
         robotino->change_state(SeguirCor::instance());
@@ -122,10 +122,7 @@ void teste003Locomocao::execute(Robotino *robotino)
         robotino->lightLed(6,0);
         usleep(500000);*/
     }
-
-
-    std::cout << "objetivo_completo:  " << objetivo_completo << std::endl;
-    if(objetivo_completo == 0){
+    else if(objetivo_completo == -1){
         //robotino->adicionarCorFaltando(Robotino::AMARELO);
         //robotino->definirObjetoAlvo(Robotino::AMARELO);
         robotino->definirParedeAlvo(Robotino::OESTE180);

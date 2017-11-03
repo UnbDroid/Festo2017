@@ -14,6 +14,7 @@
 #include "irparalinha.hpp"
 #include "modulo3testar.hpp"
 #include "teste003Locomocao.hpp"
+#include "controleremoto.hpp"
 
 #include "ajustarnaslinhas.hpp"
 #include "ajustarnaslinhasortogonais.hpp"
@@ -100,15 +101,15 @@ void teste003Locomocao::execute(Robotino *robotino)
 
     if (objetivo_completo == 0)
     {
-        /*robotino->definirObjetoAlvo(Robotino::VERMELHO);
-        robotino->change_state(SeguirCor::instance());
-        objetivo_completo = 99999;*/
-        if(init_count<10){
-            robotino->change_state(IdentificarCor::instance());
-            init_count++;
-        }
-        else{
-            objetivo_completo=-2;
+    //     /*robotino->definirObjetoAlvo(Robotino::VERMELHO);
+    //     robotino->change_state(SeguirCor::instance());
+    //     objetivo_completo = 99999;*/
+         if(init_count<10){
+             robotino->change_state(IdentificarCor::instance());
+             init_count++;
+         }
+         else{
+             objetivo_completo=-2;
         }
         //objetivo_completo=1;
         /*robotino->onLeds();
@@ -128,6 +129,8 @@ void teste003Locomocao::execute(Robotino *robotino)
         usleep(500000);
         robotino->lightLed(6,0);
         usleep(500000);*/
+    //obotino->change_state(ControleRemoto::instance());
+
     }
     else if(objetivo_completo==-2){
         robotino->definirObjetoAlvo(Robotino::VERMELHO);

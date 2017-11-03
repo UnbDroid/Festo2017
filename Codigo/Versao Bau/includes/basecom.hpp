@@ -15,7 +15,7 @@ public:
 
     void errorEvent( Error error, const char* errorString ){
         std::cerr << "Error: " << errorString << std::endl;
-        std::cout << "Tentando\n"; 
+        std::cout << "Tentando\n";
     }
 
     void connectedEvent(){
@@ -35,6 +35,7 @@ public:
     void start_connection(){
         // Connect
         std::cout << "Connecting..." << std::endl;
+
         this->setAddress(hostname);
         this->connect();
         std::cout << std::endl << "Connected" << std::endl;

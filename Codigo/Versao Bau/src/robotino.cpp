@@ -8,6 +8,11 @@
 
 #include <ctime>
 
+//#include "rec/robotino/com/c/Camera.h"
+
+//#include "rec/robotino/com/c/Com.h"
+
+
 #define VXMAX 300
 #define VYMAX  300
 #define OMEGAMAX 40
@@ -29,6 +34,8 @@ Robotino::Robotino(const char *hostname,
     seteiOdometria(false){
     // Connect
     try{
+        //camid = Camera_construct();
+        //comid = Com_construct();
         this->start_connection();
         odometry.set(pontoInicial.get_x()*10,pontoInicial.get_y()*10,pontoInicial.get_theta());
         camera.setStreaming(true);
@@ -224,10 +231,12 @@ void Robotino::update(){
                 countOdometria ++;
             }
 
+
             if(dif < 10 || countOdometria == 10){
                 seteiOdometria = false;
                 countOdometria = 0;
             }
+
             cv::imshow("Amor", this->getImage());
             cvMoveWindow("Amor",0,500);
             //std::cout << "Odometria : " << odometryPhi() << std::endl;

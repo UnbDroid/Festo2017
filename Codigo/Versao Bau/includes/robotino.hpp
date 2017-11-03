@@ -5,7 +5,9 @@
 #define DEBUG
 
 #include "rec/robotino/com/all.h"
-#include "mycamera.hpp"
+#include "rec/robotino/com/all.h"
+//#include "mycamera.hpp"
+#include "Camera.hpp"
 #include "basecom.hpp"
 #include "robotbase.hpp"
 #include "mapa.hpp"
@@ -14,7 +16,13 @@
 #include <algorithm>
 #include <opencv2/opencv.hpp>
 
+//#include "rec/robotino/com/c/Camera.h"
+
+
+//#include "rec/robotino/com/c/Com.h"
+
 class Robotino: public BaseCom, public RobotBase<Robotino>{
+//class Robotino: public RobotBase<Robotino>{
 public:
 
     Robotino(const char *hostname,
@@ -259,7 +267,8 @@ private:
     rec::iocontrol::remotestate::SetState setState;
     Odometry odometry;
     DigitalOutput led; //seta led pra acender
-    MyCamera<Robotino> camera;
+    //MyCamera<Robotino> camera;
+    MyCamera2<Robotino> camera;
     // Imagem da camera
     cv::Mat cameraImage;
     Mapa mapa;
@@ -278,6 +287,9 @@ private:
     float odometriaX, odometriaY, odometriaPhi;
     bool seteiOdometria;
     std::vector<int> coresFaltando;
+
+    //CameraId camid;
+    //ComId comid;
 
 };
 

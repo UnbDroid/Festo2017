@@ -98,7 +98,7 @@ void testeVisao::execute(Robotino *robotino)
 
     if (objetivo_completo == 0)
     {
-        robotino->change_state(IdentificarCor::instance());
+        //robotino->change_state(IdentificarCor::instance());
     }
     else if(objetivo_completo == 99999)
     {

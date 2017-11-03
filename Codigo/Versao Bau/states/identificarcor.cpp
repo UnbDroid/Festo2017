@@ -358,6 +358,7 @@ void IdentificarCor::execute(Robotino *robotino)
         bool azul, amarelo, vermelho, preto;
 
         cvtColor(cameraFeed,YCrCb,COLOR_BGR2YCrCb);
+        imshow("YCrCb",YCrCb);
 
         //first find blue objects
 

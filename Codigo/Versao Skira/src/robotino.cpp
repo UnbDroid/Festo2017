@@ -209,29 +209,36 @@ float Robotino::calcDist(float x1, float x2, float y1, float y2){
 void Robotino::update(){
     try{
         if(this->isConnected()){
-             if(this->bumper() == true){
-                //this->exit("Bateu");
-            }
-            state_machine.update();
-            if(!this->waitForUpdate(0)) std::cout << "Falhou aqui\n";
-            this->currentSensorState = this->sensorState();
-            mapa.mostrar_mapa_com_robo(Coordenadas(this->odometryX()/10,-this->odometryY()/10,-this->odometryPhi()));
+           if(this->bumper() == true){
+               //this->exit("Bateu");
+           }
+           state_machine.update();
+           if(!this->waitForUpdate(0)) std::cout << "Falhou aqui\n";
+           this->currentSensorState = this->sensorState();
+           mapa.mostrar_mapa_com_robo(Coordenadas(this->odometryX()/10,-this->odometryY()/10,-this->odometryPhi()));
 
-            float dif = std::abs(this->currentSensorState.odometryX-this->odometriaX)+std::abs(this->currentSensorState.odometryY-this->odometriaY)+std::abs(this->currentSensorState.odometryPhi-this->odometriaPhi);
-            static int countOdometria = 0;
+           float dif = std::abs(this->currentSensorState.odometryX-this->odometriaX)+std::abs(this->currentSensorState.odometryY-this->odometriaY)+std::abs(this->currentSensorState.odometryPhi-this->odometriaPhi);
+           static int countOdometria = 0;
 
-            if (seteiOdometria){
-                countOdometria ++;
-            }
+           if (seteiOdometria){
+               countOdometria ++;
+           }
 
-            if(dif < 10 || countOdometria == 10){
-                seteiOdometria = false;
-                countOdometria = 0;
-            }
-            cv::imshow("Amor", this->getImage());
-            cvMoveWindow("Amor",0,500);
-            //std::cout << "Odometria : " << odometryPhi() << std::endl;
-            cv::waitKey(1);
+           if(dif < 10 || countOdometria == 10){
+               seteiOdometria = false;
+               countOdometria = 0;
+           }
+           cv::imshow("Amor", this->getImage());
+           cvMoveWindow("Amor",0,500);
+           //std::cout << "Odometria : " << odometryPhi() << std::endl;
+           cv::waitKey(1);
+        }
+        else{
+           std::cout<<"Tentando reconectar..."<<std::endl;
+           while(!this->isConnected()){
+                this->start_connection();
+                usleep(1000000);
+           }
         }
     }
     catch( const rec::robotino::com::ComException& e ){

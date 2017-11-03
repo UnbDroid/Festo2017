@@ -131,7 +131,7 @@ void AndarPelaParedeAteLinha::execute(Robotino *robotino)
 
         std::cout << "Distância da direita: " << distancia_da_direita << "\n";
 
-        if (lines.size() > numeroLinhasMin){
+    /*    if (lines.size() > numeroLinhasMin){
 
             if (paredeAlvo == Robotino::SULN90) {
                 robotino->setOdometry((distancia_da_direita*10+15),robotino->odometryY(),-90);
@@ -145,7 +145,7 @@ void AndarPelaParedeAteLinha::execute(Robotino *robotino)
             if (paredeAlvo == Robotino::OESTE180) {
                 robotino->setOdometry(robotino->odometryX(),-((distancia_da_direita*10+15)),180);
             }
-        }
+        }*/
     }
 
 

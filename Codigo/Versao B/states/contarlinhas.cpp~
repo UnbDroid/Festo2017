@@ -44,7 +44,6 @@ void ContarLinhas::execute(Robotino *robotino)
 	 std::cout << "ACHEIeieie!"<<numeroLinhas << std::endl;
         tag = true;
         if (!preto){
-	usleep(2000000);
             numeroLinhas++;
             tag = false;
 	    std::cout << "ACHEIeTROLOLO!  \n\n\n\n\n\n\n\n\n\n\n\n\n\n "<<numeroLinhas << std::endl;
@@ -62,12 +61,15 @@ void ContarLinhas::execute(Robotino *robotino)
  	std::cout << "Numero Linhas: "<<numeroLinhas << std::endl;
         robotino->setVelocity(0,0,0);
         viMetal = true;
-        robotino->setOdometry(760 , robotino->odometryY(), 180);
+        
         if (numeroLinhas == 1){
+		robotino->setOdometry(40 , robotino->odometryY(), 180);
             robotino->setCorDiscoDeposito(Object("red"), Object("red"));
         }else if (numeroLinhas == 2){
+		robotino->setOdometry(40 , robotino->odometryY(), 180);
             robotino->setCorDiscoDeposito(Object("yellow"), Object("yellow"));
         }else if (numeroLinhas == 3){
+		robotino->setOdometry(40 , robotino->odometryY(), 180);
             robotino->setCorDiscoDeposito(Object("blue"), Object("blue"));
         }
         robotino->change_state(robotino->previous_state());

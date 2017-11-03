@@ -140,14 +140,17 @@ void Testin2017::execute(Robotino *robotino)
         robotino->setDistParede(15);
         robotino->change_state(AndarPelaParedeAteLinha::instance());	
 	objetivo_completo = 7;
+usleep(2000000);
 	}
 	else if(objetivo_completo == 7){
 	robotino->change_state(AjustarNasLinhas::instance());
 	objetivo_completo = 8;
+usleep(2000000);
    	}
 	else if (objetivo_completo == 8){
 	robotino->change_state(ContarLinhas::instance());
 	objetivo_completo = 9;
+usleep(2000000);
 	}
 	else if(objetivo_completo == 9){
 	robotino->definirDestino(robotino->odometryX()/10 - 15, robotino->odometryY()/10);
@@ -160,11 +163,13 @@ void Testin2017::execute(Robotino *robotino)
 	robotino->setCarregando(false);
         discos_entregues++;
         objetivo_completo = 11;	
+	usleep(4000000);
 	}
 	else if(objetivo_completo == 11){
 	robotino->setThetaR(-90);
 	robotino->change_state(Girar::instance());
-	objetivo_completo = 99;
+	objetivo_completo = 98;
+usleep(4000000);
 	}
 	else if(objetivo_completo == 99){
 	robotino->definirObjetoAlvo(Robotino::VERMELHO);
@@ -176,26 +181,33 @@ void Testin2017::execute(Robotino *robotino)
 	}
 	else if(objetivo_completo == 98){
 	robotino->definirParedeAlvo(Robotino::OESTE180);
-	robotino->change_state(IrParaPonto::instance());
-        objetivo_completo = 14;
+	robotino->change_state(IrParaParede::instance());
+        objetivo_completo = 99;
+	usleep(2000000);
 	}
 	else if(objetivo_completo == 12){
 	robotino->definirObjetoAlvo(Robotino::VERMELHO);
 	robotino->change_state(SeguirCor::instance());
 	objetivo_completo = 13;
+	usleep(2000000);
 	}
 	else if(objetivo_completo == 13){
 	robotino->setThetaR(-179);
 	robotino->change_state(Girar::instance());
 	objetivo_completo = 98;
+usleep(2000000);
 	}
 	else if(objetivo_completo == 14){
-	robotino->definirDestino(100, -120);
-	robotino->change_state(IrParaPonto::instance());
+	robotino->definirParedeAlvo(Robotino::OESTE180);
+	robotino->change_state(IrParaParede::instance());
         objetivo_completo++;
+	usleep(2000000);
 	}
 	else if(objetivo_completo == 15){	
+	robotino->definirDestino(robotino->odometryX()/10, robotino->odometryY()/10 - 70);
+	robotino->change_state(IrParaPonto::instance());
 	objetivo_completo++;
+usleep(2000000);
 	}
 	else if(objetivo_completo == 16){
 	robotino->change_state(AjustarNasLinhas::instance());

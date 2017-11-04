@@ -1,5 +1,5 @@
-#ifndef MYCAMERA_HPP
-#define MYCAMERA_HPP
+#ifndef MYCAMERA2_HPP
+#define MYCAMERA2_HPP
 
 #include "rec/robotino/com/all.h"
 #include "rec/robotino/com/Camera.h"
@@ -23,36 +23,26 @@ template <class owner_t> class MyCamera2:public Camera{
 public:
     MyCamera2(owner_t *robo){
         this->meuRobo = robo;
+        this->setResolution(320,240);
     }
 
    virtual void imageReceivedEvent (const unsigned char *data, unsigned int dataSize, unsigned int width, unsigned int height, unsigned int numChannels, unsigned int bitsPerChannel, unsigned int step)
    {
-        //f(this->isStreaming())
+        if(meuRobo->newImage)
             //{
             if(dataSize > 0 && width> 0 && height>0)
             {
-                Mat mostra(height,width,CV_8UC3);
-
-                int i,j,k;
-                uchar *p;
-                for(int i = 0,k=0; i<height;i++ )
+                meuRobo->loadedImage = true;
+                meuRobo->newImage = false;
+                int j,i,k;
+                for(i=0,k=0;i<height-10;i++)
                 {
-                    p = mostra.ptr<uchar>(i);
-                    for(j=0;j<width*numChannels;j+=numChannels,k+=numChannels)
+                    for(j=0;j<width;j++,k+=3)
                     {
-                        p[j] = data[k+2];
-                        p[j+1] = data[k+1];
-                        p[j+2] = data[k];
+                        meuRobo->loadPixel(data[k+2] , data[k+1],data[k],j,i );
                     }
                 }
-                imshow("mostra",mostra);
-               //Mat mostra(height,width,CV_8UC3,dados);
 
-               //Mat decodedImage  =  cv::imdecode(mostra ,CV_LOAD_IMAGE_COLOR);
-                //imshow("mostra",decodedImage);
-                //waitKey(1);
-                cout<<dataSize<<"    "<<width<<"   "<<height<<endl;
-                cout<<"imagem hehehe"<<endl;
             }
         //}
    }

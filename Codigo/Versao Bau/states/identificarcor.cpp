@@ -12,7 +12,7 @@ const int FRAME_HEIGHT = 480;
 //max number of objects to be detected in frame
 const int MAX_NUM_OBJECTS=50;
 //minimum and maximum object area
-const int MIN_OBJECT_AREA = 8*8;
+const int MIN_OBJECT_AREA = 4*4;
 const int MAX_OBJECT_AREA = FRAME_HEIGHT*FRAME_WIDTH/1.5;
 //names that will appear at the top of each window
 const string windowName = "Original Image";
@@ -68,127 +68,20 @@ void drawObject(vector<Object> theObjects,Mat &frame, vector<Segmento > segmento
 }
 
 
-void morphOps(Mat &thresh){
-
-    //create structuring element that will be used to "dilate" and "erode" image.
-    //the element chosen here is a 3px by 3px rectangle
-    Mat erodeElement = getStructuringElement( MORPH_RECT,Size(3,3));
-    //dilate with larger element so make sure object is nicely visible
-    Mat dilateElement = getStructuringElement( MORPH_RECT,Size(17,17));
-
-    erode(thresh,thresh,erodeElement);
-    erode(thresh,thresh,erodeElement);
-
-    dilate(thresh,thresh,dilateElement);
-    dilate(thresh,thresh,dilateElement);
-
-   // imshow("morph2",thresh);
-   // waitKey(1);
-}
-
-/*
-bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed, Robotino* robotino){
-
-    vector <Object> objects;
-    Mat temp;
-    threshold.copyTo(temp);
-    //these two vectors needed for output of findContours
-    vector< vector<Point> > contours;
-    vector<Vec4i> hierarchy;
-    //find contours of filtered image using openCV findContours function
-    findContours(temp,contours,hierarchy,CV_RETR_CCOMP,CV_CHAIN_APPROX_SIMPLE );
-    //use moments method to find our filtered object
-    double refArea = 0;
-    bool objectFound = false;
-
-    if(theObject.getType() == "red"){
-        robotino->objetosVermelhos.clear() ;
-    }else if(theObject.getType() == "blue"){
-        robotino->objetosAzuis.clear() ;
-    }else if(theObject.getType() == "yellow"){
-        robotino->objetosAmarelos.clear() ;
-    }
-
-    if (hierarchy.size() > 0) {
-        int numObjects = hierarchy.size();
-        //if number of objects greater than MAX_NUM_OBJECTS we have a noisy filter
-        if(numObjects<MAX_NUM_OBJECTS){
-            objectFound = false;
-            for (int index = 0; index >= 0; index = hierarchy[index][0]) {
-
-                Moments moment = moments((cv::Mat)contours[index]);
-                double area = moment.m00;
-
-        //if the area is less than 20 px by 20px then it is probably just noise
-        //if the area is the same as the 3/2 of the image size, probably just a bad filter
-        //we only want the object with the largest area so we safe a reference area each
-                //iteration and compare it to the area in the next iteration.
-                if(area>MIN_OBJECT_AREA){
-
-                    Object object;
-
-                    object.setXPos(moment.m10/area);
-                    object.setYPos(moment.m01/area);
-                    object.setType(theObject.getType());
-                    object.setColor(theObject.getColor());
-                    object.setHSVmin(theObject.getHSVmin());
-                    object.setHSVmax(theObject.getHSVmax());
-
-                    objects.push_back(object);
-
-                    objectFound = true;
-
-                    if(theObject.getType() == "red"){
-                        robotino->objetosVermelhos.push_back(object);
-                    }else if(theObject.getType() == "blue"){
-                        robotino->objetosAzuis.push_back(object);
-                    }else if(theObject.getType() == "yellow"){
-                        robotino->objetosAmarelos.push_back(object);
-                    }
-
-                }
-            }
-            //let user know you found an object
-            if(objectFound ==true){
-                //draw object location on screen
-                drawObject(objects,cameraFeed,temp,contours,hierarchy);
-
-            }
-
-        }else putText(cameraFeed,"TOO MUCH NOISE! ADJUST FILTER",Point(0,50),1,2,Scalar(0,0,255),2);
-    }
-    return objectFound;
-}
-*/
-
-
 void segmenta(Mat src, vector<Segmento> *objetos)
 {
-
-    //imshow("source",src);
-    //imshow("thresh",thresh);
-
-    //vector<Segmento> segmentos;
-
     Segmento segmento;
     Point ponto;
-
     int nRows = src.rows;
     int nCols = src.cols;
-
     //indices
     int i,j,l,m;
     //posicao pixel
     int x,y,x2,y2;
 
-
-    //Mat ref(src.size(),CV_8UC1);
-    //ref = Scalar(255);
-
     int num_dir = 4;
     Point lados[4] = {Point(-1,0),Point(0,-1),Point(1,0),Point(0,1)};
     uchar *p;
-
 
     for(i=0;i<nRows;i++)
     {
@@ -234,9 +127,6 @@ void segmenta(Mat src, vector<Segmento> *objetos)
 
         }
     }
-
-    //cout<<"seg: "<<objetos.size()<<endl;
-
 
 }
 
@@ -303,6 +193,7 @@ bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed
                     }
                 }
             }
+
             #ifdef DEBUG
             //let user know you found an object
             if(objectFound ==true){
@@ -325,8 +216,10 @@ bool trackFilteredObject(Object theObject,Mat threshold,Mat HSV, Mat &cameraFeed
 void IdentificarCor::execute(Robotino *robotino)
 {
 
-
-
+    static struct timeval t0, t1;
+    static bool init = false;
+    int tempo = 0;
+    //robotino->newImage = false;
     //Matrix to store each frame of the webcam feed
     static Mat cameraFeed;
     //static Mat threshold;
@@ -334,7 +227,7 @@ void IdentificarCor::execute(Robotino *robotino)
     //static Mat thresholdr2;
     static Mat YCrCb;
     static Mat Y,B,R;
-    //static Mat src;
+    static Mat src;
 
     static int erode_size = 2;
     static int dilate_size = 2;
@@ -343,8 +236,34 @@ void IdentificarCor::execute(Robotino *robotino)
 
     //cv::waitKey();
 
+
+    //gettimeofday(&t0,NULL);
     cameraFeed = robotino->getImage();
-    if(cameraFeed.data != NULL)
+    //src.copyTo(cameraFeed);
+    //robotino->newImage = true;
+    //gettimeofday(&t1,NULL);
+    //tempo = ( 1000000*(t1.tv_sec-t0.tv_sec)+(t1.tv_usec-t0.tv_usec)   );
+    //cout<<"tempo:  "<<tempo<<endl;
+
+    if(!init){
+        gettimeofday(&t0,NULL);
+        init = true;
+    }
+    gettimeofday(&t1,NULL);
+    tempo = ( 1000000*(t1.tv_sec-t0.tv_sec)+(t1.tv_usec-t0.tv_usec)   );
+    cout<<"TEMPO:  "<<tempo<<endl;
+    gettimeofday(&t0,NULL);
+
+    //resize(cameraFeed,cameraFeed,(Size(160,115)));
+    imshow("Original", cameraFeed);
+
+    vector<Mat> channels;
+    split(cameraFeed,channels);
+    erode(channels[0],channels[0],element);
+    merge(channels,cameraFeed);
+    imshow("Menos azul",cameraFeed);
+
+    if(true)
     {
         //src = cameraFeed;
 
@@ -363,10 +282,11 @@ void IdentificarCor::execute(Robotino *robotino)
         //first find blue objects
 
         inRange(YCrCb,blue.getHSVmin(),blue.getHSVmax(),B);
+        imshow("blue0",B);
         //morphOps(threshold);
         erode(B,B,element);
         dilate(B,B,dlement);
-       // imshow("blue",B);
+        imshow("blue",B);
 
         azul = trackFilteredObject(blue,B,YCrCb,cameraFeed, robotino);
 
@@ -434,6 +354,7 @@ void IdentificarCor::execute(Robotino *robotino)
 
         //robotino->change_state(SeguirCor::instance());
     }
+
     robotino->change_state(robotino->previous_state());
 
 }

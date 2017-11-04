@@ -182,6 +182,10 @@ public:
     int LED_AMARELO;
     int LED_AZUL;*/
 
+
+    bool newImage;
+    bool loadedImage;
+
     void definirObjetoAlvo(int);
 
     void definirCorAlvo(int);
@@ -189,6 +193,10 @@ public:
     void setImage(cv::Mat image);
 
     cv::Mat getImage();
+
+    void loadImage(uchar *data);
+
+    void loadPixel(unsigned char B, unsigned char G, unsigned char R, int x, int y);
 
     bool carregandoDisco(){return disco;};
 
@@ -271,6 +279,7 @@ private:
     MyCamera2<Robotino> camera;
     // Imagem da camera
     cv::Mat cameraImage;
+    cv::Mat srcImage;
     Mapa mapa;
     bool devoGirarParede;
     bool disco;

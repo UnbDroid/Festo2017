@@ -34,6 +34,8 @@ Robotino::Robotino(const char *hostname,
     seteiOdometria(false){
     // Connect
     try{
+        Mat(230,320,CV_8UC3).copyTo(cameraImage);
+        newImage = true;
         //camid = Camera_construct();
         //comid = Com_construct();
         this->start_connection();
@@ -198,6 +200,15 @@ void Robotino::setThetaR(float thetaR){
     this->thetaR = thetaR;
 }
 
+
+cv::Mat Robotino::getImage(){
+    this->newImage = false;
+    this->cameraImage.copyTo(srcImage);
+    this->newImage = true;
+    return srcImage;
+}
+
+/*
 cv::Mat Robotino::getImage(){
     cv::Mat imgTemp = cv::imread("temp.jpg",-1);//this->cameraImage;
     if(imgTemp.cols == 0 || imgTemp.rows == 0){
@@ -207,6 +218,15 @@ cv::Mat Robotino::getImage(){
         cameraImage = img;
         return img;
     }
+}
+*/
+
+
+void Robotino::loadPixel(unsigned char B, unsigned char G, unsigned char R, int x, int y)
+{
+    cameraImage.at<Vec3b>(Point(x,y))[0] = B;
+    cameraImage.at<Vec3b>(Point(x,y))[1] = G;
+    cameraImage.at<Vec3b>(Point(x,y))[2] = R;
 }
 
 float Robotino::calcDist(float x1, float x2, float y1, float y2){
@@ -237,8 +257,9 @@ void Robotino::update(){
                 countOdometria = 0;
             }
 
+            cv::imshow("Amor",this->cameraImage);
             cv::imshow("Amor", this->getImage());
-            cvMoveWindow("Amor",0,500);
+            //cvMoveWindow("Amor",0,500);
             //std::cout << "Odometria : " << odometryPhi() << std::endl;
             cv::waitKey(1);
         }
@@ -429,6 +450,7 @@ void Robotino::definirCorAlvo(int cor){
         nome = "blue";
     if(cor == TODAS)
         nome = "all";
+
 
     Object objetoAux(nome);
     objetoAlvo = objetoAux;

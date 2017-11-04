@@ -36,6 +36,8 @@
 #include <opencv2/opencv.hpp>
 #include <algorithm>
 
+#include <sys/time.h>
+
 #define PI 3.14159265
 #define R 0
 #define Y 1
@@ -83,6 +85,7 @@ void testeVisao::execute(Robotino *robotino)
     static int pegar = 0;
     static bool deixando = false;
 
+
     static vector<int> ordemAtualDiscos = {INDEFINIDO, INDEFINIDO, INDEFINIDO, INDEFINIDO, INDEFINIDO, INDEFINIDO}; //mudei para 6
     static vector<int> ordemCorreta = {B,B,R,R,Y,Y};
 
@@ -98,7 +101,7 @@ void testeVisao::execute(Robotino *robotino)
 
     if (objetivo_completo == 0)
     {
-        //robotino->change_state(IdentificarCor::instance());
+        robotino->change_state(IdentificarCor::instance());
     }
     else if(objetivo_completo == 99999)
     {

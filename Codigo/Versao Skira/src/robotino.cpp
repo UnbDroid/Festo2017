@@ -456,6 +456,18 @@ void Robotino::setCorDiscoDeposito (Object obj1, Object obj2) {
 
 }
 
+int Robotino::xMaq(int num){
+    return mapa.maquina[num].pos.get_x();
+}
+
+int Robotino::yMaq(int num){
+    return -mapa.maquina[num].pos.get_y();
+}
+
+int Robotino::sizeMaq(int num){
+    return mapa.maquina[num].tamanho;
+}
+
 void Robotino::removerCorFaltando(int cor){
     coresFaltando.erase(std::find(coresFaltando.begin(), coresFaltando.end(), cor));
 

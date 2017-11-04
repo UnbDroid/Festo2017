@@ -135,6 +135,11 @@ public:
     Coordenadas pegarCoordenadaArea(int , Coordenadas);
     Coordenadas pegarCoordenadaArea(int);
 
+    //Mapa maquina
+    int xMaq(int);
+    int yMaq(int);
+    int sizeMaq(int);
+
     // Variaveis necessárias
     float dObs;
     float thetaObs;

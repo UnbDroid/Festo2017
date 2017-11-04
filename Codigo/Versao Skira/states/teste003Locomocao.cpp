@@ -104,32 +104,16 @@ void teste003Locomocao::execute(Robotino *robotino)
     //     /*robotino->definirObjetoAlvo(Robotino::VERMELHO);
     //     robotino->change_state(SeguirCor::instance());
     //     objetivo_completo = 99999;*/
-         if(init_count<10){
-             robotino->change_state(IdentificarCor::instance());
-             init_count++;
-         }
-         else{
-             objetivo_completo=-2;
-        }
-        //objetivo_completo=1;
-        /*robotino->onLeds();
-        usleep(500000);
-        robotino->offLeds();
-        usleep(500000);*/
-
-         /*robotino->lightLed(7,0);
-        usleep(500000);
-        robotino->lightLed(5,0);
-        usleep(500000);
-        robotino->lightLed(6,0);
-        usleep(500000);
-       robotino->lightLed(7,0);
-        usleep(500000);
-        robotino->lightLed(5,0);
-        usleep(500000);
-        robotino->lightLed(6,0);
-        usleep(500000);*/
-    //obotino->change_state(ControleRemoto::instance());
+        //  if(init_count<10){
+        //      robotino->change_state(IdentificarCor::instance());
+        //      init_count++;
+        //  }
+        //  else{
+        //      objetivo_completo=-2;
+        // }
+        robotino->definirDestino(robotino->xMaq(0), robotino->yMaq(0));
+        robotino->change_state(IrParaPonto::instance());
+        //robotino->change_state(ControleRemoto::instance());
 
     }
     else if(objetivo_completo==-2){

@@ -15,6 +15,13 @@
 using namespace std;
 using namespace cv;
 
+typedef struct{
+	Coordenadas pos;
+	int tamanho;
+	bool parede;
+	int orientacao;
+}Maquinas;
+
 class Mapa
 {
 public:
@@ -25,6 +32,8 @@ public:
 	~Mapa();
 
 	string representacao() const;
+
+	void inserir_maquina(Coordenadas, int, int, int);
 
 	void inserir_retangulo(Coordenadas,Coordenadas,int);
 
@@ -47,6 +56,8 @@ public:
 	float getLarguraMapa() {return largura;};
 
 	static const int LINHA = 0, PAREDE = 1;
+
+	vector<Maquinas> maquina;
 
 private:
 	int * mapa;

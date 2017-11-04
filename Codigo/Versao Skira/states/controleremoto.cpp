@@ -77,8 +77,9 @@ void ControleRemoto::execute(Robotino *robotino)
                     voltage[i] = sensor.distanceSensor[i];      //calculo dos novos valores (n consigo acessar robotino->currentSensorState.distanceSensor[IF] aqui por ser privada)
                     dist[i] = (8.26)*voltage[i]*voltage[i]*voltage[i]*voltage[i]-55.77*voltage[i]*voltage[i]*voltage[i]+137.5*voltage[i]*voltage[i]-152.7*voltage[i]+75.13;
                 }
-                std::cout<<dist[0]<<"  "<<dist[1]<<"  "<<dist[2]<<"  "<<dist[3]<<"  "<<dist[4]<<"  "<<dist[5]<<"  "<<dist[6]<<"  "<<dist[7]<<"  "<<dist[8]<<std::endl;
-                break;
+                //std::cout<<dist[0]<<"  "<<dist[1]<<"  "<<dist[2]<<"  "<<dist[3]<<"  "<<dist[4]<<"  "<<dist[5]<<"  "<<dist[6]<<"  "<<dist[7]<<"  "<<dist[8]<<std::endl;
+                std::cout<<"\ndist ate maquina 1: "<<robotino->calcDist(robotino->xMaq(0), (robotino->odometryX())/10, -robotino->yMaq(0), (robotino->odometryY())/10)<<std::endl;
+                break;//<<robotino->odometryX()<<"  "<<robotino->odometryY()<<std::endl;
         }
     }
     robotino->change_state(robotino->previous_state());

@@ -84,6 +84,14 @@ void FabricaDeMapas::mapaModulo1_001(Mapa & mapa)
     mapa.inserir_retangulo(Coordenadas(0,332.5),Coordenadas(40,333.5),mapa.LINHA);//area2
     mapa.inserir_retangulo(Coordenadas(0,399.5),Coordenadas(40,300.5),mapa.LINHA);//area3
 
+    //Maquinas
+    Maquinas maqtemp;
+    maqtemp.pos = Coordenadas(100,100);
+    maqtemp.tamanho = 80;
+    maqtemp.parede = 0;
+    maqtemp.orientacao = 225;
+    mapa.inserir_maquina(maqtemp.pos, maqtemp.tamanho, maqtemp.orientacao, 2);
+    mapa.maquina.push_back(maqtemp);
 }
 
 /*void FabricaDeMapas::mapaArenaTreino(Mapa & mapa)

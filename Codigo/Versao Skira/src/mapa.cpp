@@ -36,6 +36,7 @@ Mapa::~Mapa(){
 	//delete[] coordenadas_do_mapa;
 }
 
+
 void Mapa::definir_cores(){ //<<<<<<<<<<
 	cores[0] = Scalar(0,255,255);//(BGR)
 	cores[1] = Scalar(255,255,255);//BLACK
@@ -47,6 +48,15 @@ void Mapa::definir_cores(){ //<<<<<<<<<<
 	cores[7] = Scalar(52,135,0);
 	cores[8] = Scalar(120,40,0);
 	cores[9] = Scalar(20,200,180);
+}
+
+void Mapa::inserir_maquina(Coordenadas centro, int tam, int ang, int cor){
+	bool cond = (((centro.get_y()+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=m)||((centro.get_x()+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=n)||((centro.get_x()-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0)||((centro.get_y()-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0));
+	if(cond){
+		return;
+	}
+	line(img_mapa, Point((centro.get_y()+((1.4142135*tam/2)*cos((PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((PI/4)-(PI*ang/180))))/granulacao)    ,    Point((centro.get_y()+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao),  cores[cor] );
+	line(img_mapa, Point((centro.get_y()+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao)    ,    Point((centro.get_y()+((1.4142135*tam/2)*cos((5*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((5*PI/4)-(PI*ang/180))))/granulacao),  cores[cor] );
 }
 
 string Mapa::representacao() const{
@@ -93,6 +103,7 @@ void Mapa::inserir_retangulo(Coordenadas coord1, Coordenadas coord2, int tipo){
 		}
 	}
 }
+
 
 Coordenadas Mapa::coordenada_area(int id, Coordenadas p){
 	if(!areas_armazenadas.count(id) || id == LINHA || id == PAREDE)

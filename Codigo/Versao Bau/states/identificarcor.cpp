@@ -258,10 +258,18 @@ void IdentificarCor::execute(Robotino *robotino)
     imshow("Original", cameraFeed);
 
     vector<Mat> channels;
-    split(cameraFeed,channels);
-    erode(channels[0],channels[0],element);
-    merge(channels,cameraFeed);
-    imshow("Menos azul",cameraFeed);
+    Mat HSV;
+    cvtColor(cameraFeed,HSV,CV_BGR2HSV);
+    split(HSV,channels);
+    imshow("S",channels[1]);
+    erode(channels[1],channels[1],element);
+    imshow("erode",channels[1]);
+    dilate(channels[1],channels[1],dlement);
+    imshow("dilate",channels[1]);
+    merge(channels,HSV);
+    imshow("Menos azul",HSV);
+    cvtColor(HSV,cameraFeed,CV_HSV2BGR);
+    imshow("BGR2",cameraFeed);
 
     if(true)
     {

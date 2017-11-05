@@ -86,13 +86,21 @@ void FabricaDeMapas::mapaModulo1_001(Mapa & mapa)
 
     //Maquinas
     Maquinas maqtemp;
-    maqtemp.pos = Coordenadas(100,100);
+    maqtemp.pos = Coordenadas(100,-100);
     maqtemp.tamanho = 30;
     maqtemp.parede = 0;
     maqtemp.orientacao = 225;
     maqtemp.corMaq="azul";
-    mapa.inserir_maquina(maqtemp.pos, maqtemp.tamanho, maqtemp.orientacao, 2, "amarelo");
     mapa.maquina.push_back(maqtemp);
+    mapa.inserir_maquina(mapa.maquina[0].pos, mapa.maquina[0].tamanho, mapa.maquina[0].orientacao, 2, mapa.maquina[0].corMaq);
+
+    maqtemp.pos = Coordenadas(200,-200);
+    maqtemp.tamanho = 50;
+    maqtemp.parede = 0;
+    maqtemp.orientacao = 20;
+    maqtemp.corMaq="nada";
+    mapa.maquina.push_back(maqtemp);
+    mapa.inserir_maquina(mapa.maquina[1].pos, mapa.maquina[1].tamanho, mapa.maquina[1].orientacao, 2, mapa.maquina[1].corMaq);
 }
 
 /*void FabricaDeMapas::mapaArenaTreino(Mapa & mapa)

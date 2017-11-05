@@ -51,24 +51,26 @@ void Mapa::definir_cores(){ //<<<<<<<<<<
 }
 
 void Mapa::inserir_maquina(Coordenadas centro, int tam, int ang, int cor, string discoCor){
-	bool cond = (((centro.get_y()+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=m)||((centro.get_x()+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=n)||((centro.get_x()-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0)||((centro.get_y()-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0));
+	int posy=-centro.get_y();
+	int posx=centro.get_x();
+	bool cond = (((posy+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=m)||((posx+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=n)||((posx-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0)||((posy-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0));
 	if(cond){
 		return;
 	}
 	Point retanguloFill[1][4];			//So pq a funcao de desenhar poligono ta pedindo
 	Point pontos[4];
-	pontos[0] = Point((centro.get_y()+((1.4142135*tam/2)*cos((PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((PI/4)-(PI*ang/180))))/granulacao);
-	pontos[1] = Point((centro.get_y()+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao);
-	pontos[2] = Point((centro.get_y()+((1.4142135*tam/2)*cos((5*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((5*PI/4)-(PI*ang/180))))/granulacao);
-	pontos[3] = Point((centro.get_y()+((1.4142135*tam/2)*cos((7*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((7*PI/4)-(PI*ang/180))))/granulacao);
+	pontos[0] = Point((posy+((1.4142135*tam/2)*cos((PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((PI/4)-(PI*ang/180))))/granulacao);
+	pontos[1] = Point((posy+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao);
+	pontos[2] = Point((posy+((1.4142135*tam/2)*cos((5*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((5*PI/4)-(PI*ang/180))))/granulacao);
+	pontos[3] = Point((posy+((1.4142135*tam/2)*cos((7*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((7*PI/4)-(PI*ang/180))))/granulacao);
 
 	tam=tam*0.85;
 
 	//Mandando a mesma logica dos pontos (ctrl c ctrl v mesmo), mas com tamanho menor
-	retanguloFill[0][0] = Point((centro.get_y()+((1.4142135*tam/2)*cos((PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((PI/4)-(PI*ang/180))))/granulacao);
-	retanguloFill[0][1] = Point((centro.get_y()+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao);
-	retanguloFill[0][2] = Point((centro.get_y()+((1.4142135*tam/2)*cos((5*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((5*PI/4)-(PI*ang/180))))/granulacao);
-	retanguloFill[0][3] = Point((centro.get_y()+((1.4142135*tam/2)*cos((7*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((7*PI/4)-(PI*ang/180))))/granulacao);
+	retanguloFill[0][0] = Point((posy+((1.4142135*tam/2)*cos((PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((PI/4)-(PI*ang/180))))/granulacao);
+	retanguloFill[0][1] = Point((posy+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao);
+	retanguloFill[0][2] = Point((posy+((1.4142135*tam/2)*cos((5*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((5*PI/4)-(PI*ang/180))))/granulacao);
+	retanguloFill[0][3] = Point((posy+((1.4142135*tam/2)*cos((7*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((7*PI/4)-(PI*ang/180))))/granulacao);
 
   	const Point* ppt[1] = { retanguloFill[0] };		//copiei de um exemplo so pra garantir que funciona
   	int npt[] = { 4 };				//isso aqui tambem

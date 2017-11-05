@@ -93,6 +93,37 @@ void Mapa::inserir_retangulo(Coordenadas coord1, Coordenadas coord2, int tipo){
 		}
 	}
 }
+void Mapa::inserir_linha_angulo(Coordenadas coord1, Coordenadas coord2, int tipo){
+	int m_inicial = coord1.get_y()/granulacao;
+	int n_inicial = coord1.get_x()/granulacao;
+	int m_final = coord2.get_y()/granulacao;
+	int n_final = coord2.get_x()/granulacao;
+	bool cond1 = (m_inicial >= m || n_inicial >= n || m < 0 || n < 0);
+	bool cond2 = (m_final >= m || n_final >= n);
+	bool cond3 = (m_inicial > m_final || n_inicial > n_final);
+	if(cond1 || cond2 || cond3)
+		return;
+	if(tipo != LINHA && tipo != PAREDE){
+		if(areas_armazenadas.count(tipo))
+			return;
+		else
+			areas_armazenadas[tipo] = Area(tipo);
+	}
+
+	line(img_mapa, Point(n_inicial, m_inicial), Point(n_final, m_final), cores[tipo], 1, 8, 0)
+	for (int j = m_inicial; j <= m_final; ++j){
+		for (int i = n_inicial; i <= n_final; ++i){
+			if(tipo == LINHA){
+				inserir_linha(Coordenadas(i*granulacao,j*granulacao));
+			}else if(tipo == PAREDE){
+				inserir_parede(Coordenadas(i*granulacao,j*granulacao));
+			}else{
+				areas_armazenadas[tipo].adicionar_coordenada(coordenadas_do_mapa[i*this->m+j]);
+				inserir_marcador(Coordenadas(i*granulacao,j*granulacao),tipo);
+			}
+		}
+	}
+}
 
 Coordenadas Mapa::coordenada_area(int id, Coordenadas p){
 	if(!areas_armazenadas.count(id) || id == LINHA || id == PAREDE)
@@ -114,7 +145,11 @@ void Mapa::inserir_linha(Coordenadas coord){
 	mapa[n*this->m+m] = 2;
 	repr.replace(4*(n*this->m+m)+2,1,"\u25A4",2,2);
 }
+void Mapa::inserir_linha_angulo(Coordenadas p, angulo){
+	int m = coord.get_y()/granulacao;
+	int n = coord.get_x()/granulacao;
 
+}
 void Mapa::inserir_marcador(Coordenadas coord, int tipo){
 	int m = coord.get_y()/granulacao;
 	int n = coord.get_x()/granulacao;

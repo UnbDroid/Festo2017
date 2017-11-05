@@ -79,6 +79,9 @@ void FabricaDeMapas::mapaModulo1Teste(Mapa & mapa){
     mapa.inserir_retangulo(Coordenadas(123,66.5),Coordenadas(125,135),mapa.LINHA);
     mapa.inserir_retangulo(Coordenadas(76.5,66.5),Coordenadas(78.5,135),mapa.LINHA);
     mapa.inserir_retangulo(Coordenadas(76.5,133),Coordenadas(125,135),mapa.LINHA);
+
+   //teste!
+    mapa.inserir_linha_angulo(Coordenadas(100, 100), Coordenadas(115, 115), mapa.LINHA);
 }
 
 void FabricaDeMapas::mapaModulo11Teste(Mapa & mapa){

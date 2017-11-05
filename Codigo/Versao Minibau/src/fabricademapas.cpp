@@ -87,10 +87,11 @@ void FabricaDeMapas::mapaModulo1_001(Mapa & mapa)
     //Maquinas
     Maquinas maqtemp;
     maqtemp.pos = Coordenadas(100,100);
-    maqtemp.tamanho = 80;
+    maqtemp.tamanho = 30;
     maqtemp.parede = 0;
     maqtemp.orientacao = 225;
-    mapa.inserir_maquina(maqtemp.pos, maqtemp.tamanho, maqtemp.orientacao, 2);
+    maqtemp.corMaq="azul";
+    mapa.inserir_maquina(maqtemp.pos, maqtemp.tamanho, maqtemp.orientacao, 2, "amarelo");
     mapa.maquina.push_back(maqtemp);
 }
 

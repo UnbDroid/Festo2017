@@ -51,8 +51,8 @@ void Mapa::definir_cores(){ //<<<<<<<<<<
 }
 
 void Mapa::inserir_maquina(Coordenadas centro, int tam, int ang, int cor, string discoCor){
-	int posy=-centro.get_y();
-	int posx=centro.get_x();
+	int posx=centro.get_y();
+	int posy=centro.get_x();
 	bool cond = (((posy+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=m)||((posx+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=n)||((posx-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0)||((posy-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0));
 	if(cond){
 		return;

@@ -19,6 +19,7 @@ private:
     //FESTO 2017
     // Mapas Testes
     void mapaModulo1_001(Mapa&);
+    void mapaModuloBerimbau(Mapa&);
 
 
     //FESTO 2016

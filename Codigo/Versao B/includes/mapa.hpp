@@ -27,7 +27,7 @@ public:
 	string representacao() const;
 
 	void inserir_retangulo(Coordenadas,Coordenadas,int);
-	void Mapa::inserir_linha_angulo(Coordenadas, Coordenadas, int);
+	void inserir_linha_angulo(Coordenadas, Coordenadas, int);
 	void atualizar_mapa();
 
 	bool checar_se_na_area(Coordenadas,int);

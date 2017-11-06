@@ -30,7 +30,9 @@ Robotino::Robotino(const char *hostname,
     // Connect
     try{
         this->start_connection();
-        odometry.set(pontoInicial.get_x()*10,pontoInicial.get_y()*10,pontoInicial.get_theta());
+        std::cout<<"setei aqui ó, babaca"<<std::endl;
+        this->setOdometry(pontoInicial.get_x(), pontoInicial.get_y(), pontoInicial.get_theta());
+        //odometry.set(pontoInicial.get_x()*10,pontoInicial.get_y()*10,pontoInicial.get_theta());
         camera.setStreaming(true);
         construir_mapa();
         coresFaltando = std::vector<int>();
@@ -51,7 +53,7 @@ Robotino::Robotino(const char *hostname,
 
 void Robotino::construir_mapa(){
     FabricaDeMapas criador;
-    criador.criarMapa("Modulo1_001",mapa);
+    criador.criarMapa("ModuloBerimbau", mapa);
 }
 
 Robotino::~Robotino(){

@@ -110,7 +110,7 @@ void Mapa::inserir_linha_angulo(Coordenadas coord1, Coordenadas coord2, int tipo
 			areas_armazenadas[tipo] = Area(tipo);
 	}
 
-	line(img_mapa, Point(n_inicial, m_inicial), Point(n_final, m_final), cores[tipo], 1, 8, 0)
+	line(img_mapa, Point(n_inicial, m_inicial), Point(n_final, m_final), cores[tipo], 1, 8, 0);
 	for (int j = m_inicial; j <= m_final; ++j){
 		for (int i = n_inicial; i <= n_final; ++i){
 			if(tipo == LINHA){
@@ -145,11 +145,11 @@ void Mapa::inserir_linha(Coordenadas coord){
 	mapa[n*this->m+m] = 2;
 	repr.replace(4*(n*this->m+m)+2,1,"\u25A4",2,2);
 }
-void Mapa::inserir_linha_angulo(Coordenadas p, angulo){
-	int m = coord.get_y()/granulacao;
-	int n = coord.get_x()/granulacao;
+// void Mapa::inserir_linha_angulo(Coordenadas p, angulo){
+// 	int m = coord.get_y()/granulacao;
+// 	int n = coord.get_x()/granulacao;
 
-}
+//}
 void Mapa::inserir_marcador(Coordenadas coord, int tipo){
 	int m = coord.get_y()/granulacao;
 	int n = coord.get_x()/granulacao;

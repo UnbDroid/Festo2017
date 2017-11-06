@@ -165,6 +165,8 @@ void SeguirCor::execute(Robotino *robotino)
     bool alvo;
 
     // Obtendo a imagem do robô
+
+    std::cout << "Erro foi aqui:  " << std::endl;
     cameraFeed = robotino->getImage();
     src = cameraFeed;
 

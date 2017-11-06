@@ -38,6 +38,8 @@ void ControleRemoto::execute(Robotino *robotino)
     int vx=100, vy=100, w=100;      //velocidade dos movimentos
     float voltage[9], dist[9];
 
+    int red=0, blue=0, yellow=0;
+
     std::cout<<"  inf1     inf2     inf3    inf4     inf5     inf6    inf7     inf8     inf9"<<std::endl;
     while(key!=27){
         //cv::imshow("Amor", robotino->getImage());         //para mostrar a imagem da camera. Deixar comentado caso nao seja necessario - essa funcao manda varias mensagens de erro da imagem JPEG, diciculta a leitura dos sensores IR
@@ -71,6 +73,40 @@ void ControleRemoto::execute(Robotino *robotino)
             robotino->setVelocity(0, 0, -w);
                 usleep(25000);
             break;
+            case('r'):
+                if(!red){
+                    robotino->lightLed(Robotino::LED_VERMELHO, 1);
+                    red=1;
+                }
+                else{
+                    robotino->lightLed(Robotino::LED_VERMELHO, 0);
+                    red=0;
+                }
+                usleep(25000);
+                break;
+            case('b'):
+                if(!blue){
+                    robotino->lightLed(Robotino::LED_AZUL, 1);
+                    blue=1;
+                }
+                else{
+                    robotino->lightLed(Robotino::LED_AZUL, 0);
+                    blue=0;
+                }
+                usleep(25000);
+                break;
+
+            case('y'):
+                if(!yellow){
+                    robotino->lightLed(Robotino::LED_AMARELO, 1);
+                    yellow=1;
+                }
+                else{
+                    robotino->lightLed(Robotino::LED_AMARELO, 0);
+                    yellow=0;
+                }
+                usleep(25000);
+                break;
             case('\n'):     //se apertar enter, mostra a situacao atual dos sensores infra-vermelhos
                 sensor = robotino->sensorState();
                 for(int i=0;i<9;i++){

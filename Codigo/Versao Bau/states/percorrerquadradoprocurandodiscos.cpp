@@ -229,8 +229,10 @@ void PercorrerQuadradoProcurandoDiscos::execute(Robotino *robotino)
 //Matrix to store each frame of the webcam feed
     static Mat cameraFeed;
     static Mat threshold;
-    static Mat thresholdr1;
-    static Mat thresholdr2;
+    static int erode_size = 2;
+    static int dilate_size = 3;
+    static Mat element = getStructuringElement( MORPH_RECT,Size(2*erode_size+1,2*erode_size+1));
+    static Mat dlement = getStructuringElement( MORPH_RECT,Size(2*dilate_size+1,2*dilate_size+1));
     static Mat HSV;
     static Mat src;
 
@@ -238,7 +240,7 @@ void PercorrerQuadradoProcurandoDiscos::execute(Robotino *robotino)
     src = cameraFeed;
 
     //convert frame from BGR to HSV colorspace
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
+    //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
 
 
     //create some temp fruit objects so that
@@ -247,21 +249,29 @@ void PercorrerQuadradoProcurandoDiscos::execute(Robotino *robotino)
     bool azul, amarelo, vermelho, preto;
 
     //first find blue objects
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
+    cvtColor(cameraFeed,HSV,COLOR_BGR2Lab);
+
+
+
     inRange(HSV,blue.getHSVmin(),blue.getHSVmax(),threshold);
-    morphOpsPQCD(threshold);
+    erode(threshold,threshold,element);
+    dilate(threshold,threshold,dlement);
+    dilate(threshold,threshold,dlement);
     azul = trackFilteredObjectPQCD(blue,threshold,HSV,cameraFeed, robotino);
+
     //then yellows
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
     inRange(HSV,yellow.getHSVmin(),yellow.getHSVmax(),threshold);
-    morphOpsPQCD(threshold);
+    erode(threshold,threshold,element);
+    dilate(threshold,threshold,dlement);
+    dilate(threshold,threshold,dlement);
     amarelo = trackFilteredObjectPQCD(yellow,threshold,HSV,cameraFeed, robotino);
+
+
     //then reds
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
-    inRange(HSV,red.getHSVmin(),red.getHSVmax(),thresholdr1);
-    inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
-    bitwise_or(thresholdr1,thresholdr2, threshold);
-    morphOpsPQCD(threshold);
+    inRange(HSV,red.getHSVmin(),red.getHSVmax(),threshold);
+    erode(threshold,threshold,element);
+    dilate(threshold,threshold,dlement);
+    dilate(threshold,threshold,dlement);
     vermelho = trackFilteredObjectPQCD(red,threshold,HSV,cameraFeed, robotino);
 
     //then blacks

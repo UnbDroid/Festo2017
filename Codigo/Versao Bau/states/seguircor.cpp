@@ -151,11 +151,17 @@ void SeguirCor::enter(Robotino *robotino)
 void SeguirCor::execute(Robotino *robotino)
 {
 
+
+    static int erode_size = 2;
+    static int dilate_size = 3;
+    static Mat element = getStructuringElement( MORPH_RECT,Size(2*erode_size+1,2*erode_size+1));
+    static Mat dlement = getStructuringElement( MORPH_RECT,Size(2*dilate_size+1,2*dilate_size+1));
+
 	//Matrix to store each frame of the webcam feed
     static Mat cameraFeed;
     static Mat threshold;
-    static Mat thresholdr1;
-    static Mat thresholdr2;
+    //static Mat thresholdr1;
+    //static Mat thresholdr2;
     static Mat HSV;
     static Mat src;
     static int etapasAprox = 0;
@@ -169,10 +175,12 @@ void SeguirCor::execute(Robotino *robotino)
     src = cameraFeed;
 
     //convert frame from BGR to HSV colorspace
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
+    cvtColor(cameraFeed,HSV,COLOR_BGR2Lab);
 
-    cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
+    //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
 
+
+    /*
     if(robotino->objetoAlvo.getType() == "red"){
         inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),thresholdr1);
         inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
@@ -180,8 +188,12 @@ void SeguirCor::execute(Robotino *robotino)
     }else{
         inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),threshold);
     }
-
-    SCmorphOps(threshold);
+    */
+    inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),threshold);
+    erode(threshold,threshold,element);
+    dilate(threshold,threshold,dlement);
+    dilate(threshold,threshold,dlement);
+    //SCmorphOps(threshold);
     alvo = SCtrackFilteredObject(robotino->objetoAlvo,threshold,HSV,cameraFeed, robotino);
 
     // Descomentar essa parte para mostrar o que está sendo seguido

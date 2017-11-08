@@ -6,8 +6,7 @@
 
 #include "rec/robotino/com/all.h"
 #include "rec/robotino/com/all.h"
-//#include "mycamera.hpp"
-#include "Camera.hpp"
+#include "mycamera2.hpp"
 #include "basecom.hpp"
 #include "robotbase.hpp"
 #include "mapa.hpp"

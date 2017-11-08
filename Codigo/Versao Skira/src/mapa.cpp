@@ -38,8 +38,8 @@ Mapa::~Mapa(){
 
 
 void Mapa::definir_cores(){ //<<<<<<<<<<
-	cores[0] = Scalar(0,255,255);//(BGR)
-	cores[1] = Scalar(255,255,255);//BLACK
+	cores[0] = Scalar(0,255,255);//(BGR)YELLOW
+	cores[1] = Scalar(255,255,255);//WHITE
 	cores[2] = Scalar(255,0,0);//BLUE
 	cores[3] = Scalar(0,255,0);//GREEN
 	cores[4] = Scalar(0,140,127);
@@ -48,15 +48,51 @@ void Mapa::definir_cores(){ //<<<<<<<<<<
 	cores[7] = Scalar(52,135,0);
 	cores[8] = Scalar(120,40,0);
 	cores[9] = Scalar(20,200,180);
+	cores[10] = Scalar(0,0,255);//VERMELHO, adicionei uma cor a mais
 }
 
-void Mapa::inserir_maquina(Coordenadas centro, int tam, int ang, int cor){
-	bool cond = (((centro.get_y()+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=m)||((centro.get_x()+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=n)||((centro.get_x()-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0)||((centro.get_y()-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0));
+void Mapa::inserir_maquina(Coordenadas centro, int tam, int ang, int cor, string discoCor){
+	int posy=-centro.get_y();
+	int posx=centro.get_x();
+	bool cond = (((posy+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=m)||((posx+((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao>=n)||((posx-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0)||((posy-((1.4142135*tam/2)*cos((PI/4)-(PI*(ang%90)/180))))/granulacao<=0));
 	if(cond){
 		return;
 	}
-	line(img_mapa, Point((centro.get_y()+((1.4142135*tam/2)*cos((PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((PI/4)-(PI*ang/180))))/granulacao)    ,    Point((centro.get_y()+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao),  cores[cor] );
-	line(img_mapa, Point((centro.get_y()+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao)    ,    Point((centro.get_y()+((1.4142135*tam/2)*cos((5*PI/4)-(PI*ang/180))))/granulacao , (centro.get_x()-((1.4142135*tam/2)*sin((5*PI/4)-(PI*ang/180))))/granulacao),  cores[cor] );
+	Point retanguloFill[1][4];			//So pq a funcao de desenhar poligono ta pedindo
+	Point pontos[4];
+	pontos[0] = Point((posy+((1.4142135*tam/2)*cos((PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((PI/4)-(PI*ang/180))))/granulacao);
+	pontos[1] = Point((posy+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao);
+	pontos[2] = Point((posy+((1.4142135*tam/2)*cos((5*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((5*PI/4)-(PI*ang/180))))/granulacao);
+	pontos[3] = Point((posy+((1.4142135*tam/2)*cos((7*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((7*PI/4)-(PI*ang/180))))/granulacao);
+
+	tam=tam*0.85;
+
+	//Mandando a mesma logica dos pontos (ctrl c ctrl v mesmo), mas com tamanho menor
+	retanguloFill[0][0] = Point((posy+((1.4142135*tam/2)*cos((PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((PI/4)-(PI*ang/180))))/granulacao);
+	retanguloFill[0][1] = Point((posy+((1.4142135*tam/2)*cos((3*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((3*PI/4)-(PI*ang/180))))/granulacao);
+	retanguloFill[0][2] = Point((posy+((1.4142135*tam/2)*cos((5*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((5*PI/4)-(PI*ang/180))))/granulacao);
+	retanguloFill[0][3] = Point((posy+((1.4142135*tam/2)*cos((7*PI/4)-(PI*ang/180))))/granulacao , (posx-((1.4142135*tam/2)*sin((7*PI/4)-(PI*ang/180))))/granulacao);
+
+  	const Point* ppt[1] = { retanguloFill[0] };		//copiei de um exemplo so pra garantir que funciona
+  	int npt[] = { 4 };				//isso aqui tambem
+
+	line(img_mapa,  pontos[0]   ,  pontos[1]  ,  cores[cor] );
+	line(img_mapa,  pontos[1]   ,  pontos[2]  ,  cores[cor] );
+	Scalar preenchimento;
+	if( (discoCor=="amarelo") || (discoCor=="azul") || (discoCor=="vermelho") ){
+		if(discoCor=="amarelo"){
+			preenchimento = cores[0];
+		}
+		else if(discoCor=="azul"){
+			preenchimento = cores[2];
+		}
+		else if(discoCor=="vermelho"){
+			preenchimento = Scalar(0,0,255);
+		}
+		fillPoly(img_mapa, ppt, npt, 1 , preenchimento);
+	}
+	/**/
+
 }
 
 string Mapa::representacao() const{
@@ -192,12 +228,13 @@ void Mapa::mostrar_mapa(){
 }
 
 void Mapa::mostrar_mapa_com_robo(Coordenadas p){
-	Mat pos_robo = Mat::zeros(m, n, CV_8UC3);
+	Mat pos_robo;
+	img_mapa.copyTo(pos_robo);
 	int m = p.get_y()/granulacao;
 	int n  = p.get_x()/granulacao;
 	circle(pos_robo,Point(n,m),20/granulacao,Scalar(0,0,255),-1);
 	line(pos_robo,Point(n,m),Point(n+20*cos(p.get_theta()*PI/180)/granulacao,m+20*sin(p.get_theta()*PI/180)/granulacao),Scalar(255,255,255),2);
-	imshow("Mapa",img_mapa+pos_robo);
+	imshow("Mapa",pos_robo);
 }
 
 /*void Mapa::desenhar_objeto(Objeto* obj, int x, int y){

@@ -5,6 +5,11 @@
 
 #define PI 3.14159265f
 
+//TIPOS CORES
+#define azulRect 2
+#define vermelhoRect 10
+#define amareloRect 0
+
 bool FabricaDeMapas::criarMapa(string nome, Mapa& mapa){
 
     if(nome  == "Modulo1_001")
@@ -77,21 +82,47 @@ void FabricaDeMapas::mapaModulo1_001(Mapa & mapa)
     mapa.inserir_retangulo(Coordenadas(0,0),Coordenadas(40,398),3);
 
     // Linhas da area de deposito
+
+    mapa.inserir_retangulo(Coordenadas(0,0),Coordenadas(40,133.5),azulRect);//AREA DISCO AZUL
     mapa.inserir_retangulo(Coordenadas(0,65.5),Coordenadas(40,66.5),mapa.LINHA);//area1
     mapa.inserir_retangulo(Coordenadas(0,132.5),Coordenadas(40,133.5),mapa.LINHA);//area2
+
+    mapa.inserir_retangulo(Coordenadas(0,133.5),Coordenadas(40,266.5),vermelhoRect);//AREA DISCO VERMELHO
     mapa.inserir_retangulo(Coordenadas(0,199.5),Coordenadas(40,200.5),mapa.LINHA);//area3
-    mapa.inserir_retangulo(Coordenadas(0,265.5),Coordenadas(40,266.5),mapa.LINHA);//area1
-    mapa.inserir_retangulo(Coordenadas(0,332.5),Coordenadas(40,333.5),mapa.LINHA);//area2
-    mapa.inserir_retangulo(Coordenadas(0,399.5),Coordenadas(40,300.5),mapa.LINHA);//area3
+    mapa.inserir_retangulo(Coordenadas(0,265.5),Coordenadas(40,266.5),mapa.LINHA);//area4
+
+    mapa.inserir_retangulo(Coordenadas(0,266.5),Coordenadas(40,400),amareloRect);//AREA DISCO AMARELO
+    mapa.inserir_retangulo(Coordenadas(0,332.5),Coordenadas(40,333.5),1);//mapa.LINHA);//area5
+    mapa.inserir_retangulo(Coordenadas(0,399.5),Coordenadas(40,400),1);//mapa.LINHA);//area6
+
+
 
     //Maquinas
     Maquinas maqtemp;
-    maqtemp.pos = Coordenadas(100,100);
-    maqtemp.tamanho = 80;
+    maqtemp.pos = Coordenadas(70,-200);
+    maqtemp.tamanho = 50;
     maqtemp.parede = 0;
-    maqtemp.orientacao = 225;
-    mapa.inserir_maquina(maqtemp.pos, maqtemp.tamanho, maqtemp.orientacao, 2);
+    maqtemp.orientacao = 0;
+    maqtemp.corMaq="azul";
     mapa.maquina.push_back(maqtemp);
+    mapa.inserir_maquina(mapa.maquina[0].pos, mapa.maquina[0].tamanho, mapa.maquina[0].orientacao, 2, mapa.maquina[0].corMaq);
+
+    maqtemp.pos = Coordenadas(140,-200);
+    maqtemp.tamanho = 50;
+    maqtemp.parede = 0;
+    maqtemp.orientacao = 0;
+    maqtemp.corMaq="vermelho";
+    mapa.maquina.push_back(maqtemp);
+    mapa.inserir_maquina(mapa.maquina[1].pos, mapa.maquina[1].tamanho, mapa.maquina[1].orientacao, 2, mapa.maquina[1].corMaq);
+
+
+    maqtemp.pos = Coordenadas(210,-200);
+    maqtemp.tamanho = 50;
+    maqtemp.parede = 0;
+    maqtemp.orientacao = 0;
+    maqtemp.corMaq="amarelo";
+    mapa.maquina.push_back(maqtemp);
+    mapa.inserir_maquina(mapa.maquina[2].pos, mapa.maquina[2].tamanho, mapa.maquina[2].orientacao, 2, mapa.maquina[2].corMaq);
 }
 
 /*void FabricaDeMapas::mapaArenaTreino(Mapa & mapa)

@@ -20,6 +20,7 @@ typedef struct{
 	int tamanho;
 	bool parede;
 	int orientacao;
+	string corMaq;
 }Maquinas;
 
 class Mapa
@@ -33,7 +34,7 @@ public:
 
 	string representacao() const;
 
-	void inserir_maquina(Coordenadas, int, int, int);
+	void inserir_maquina(Coordenadas, int, int, int, string);
 
 	void inserir_retangulo(Coordenadas,Coordenadas,int);
 
@@ -72,7 +73,7 @@ private:
 	void inserir_linha(Coordenadas);
 	void inserir_marcador(Coordenadas,int);
 	void definir_cores();
-	Scalar cores[10];
+	Scalar cores[11];
 
 };
 

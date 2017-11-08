@@ -71,7 +71,8 @@ public:
         VERMELHO = 0,
         AMARELO = 1,
         AZUL = 2,
-        TODAS = 3
+        TODAS = 3,
+        DESCONHECIDO = 4
     };
 
     enum DirecaoLinha: unsigned int {

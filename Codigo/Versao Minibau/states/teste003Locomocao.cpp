@@ -111,9 +111,9 @@ void teste003Locomocao::execute(Robotino *robotino)
         //  else{
         //      objetivo_completo=-2;
         // }
-        robotino->definirDestino(robotino->xMaq(0), robotino->yMaq(0));
-        robotino->change_state(IrParaPonto::instance());
-        //robotino->change_state(ControleRemoto::instance());
+        //robotino->definirDestino(robotino->xMaq(0), robotino->yMaq(0));
+        //robotino->change_state(IrParaPonto::instance());
+        robotino->change_state(ControleRemoto::instance());
 
     }
     else if(objetivo_completo==-2){

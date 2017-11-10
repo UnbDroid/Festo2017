@@ -3,11 +3,13 @@
 #include "robotino.hpp"
 #include <cmath>
 
-#define KpX 0.5
-#define KiX 0.5*0
+#include "identificarcor.hpp"
+
+#define KpX 0.4
+#define KiX 0.3
 
 #define KpY 2.5
-#define KiY 0.2*0
+#define KiY 0.1
 
 #define limiarAprox 30
 #define limiarAprox2 8
@@ -17,7 +19,7 @@
 #define Kpir 10
 #define Kpir2 20
 
-#define dt 0.01
+#define dt 0.1
 
 
 const int FRAME_WIDTH = 640;
@@ -152,7 +154,7 @@ void SeguirCor::execute(Robotino *robotino)
 {
 
 
-    static int erode_size = 2;
+    static int erode_size = 3;
     static int dilate_size = 3;
     static Mat element = getStructuringElement( MORPH_RECT,Size(2*erode_size+1,2*erode_size+1));
     static Mat dlement = getStructuringElement( MORPH_RECT,Size(2*dilate_size+1,2*dilate_size+1));
@@ -165,97 +167,136 @@ void SeguirCor::execute(Robotino *robotino)
     static Mat HSV;
     static Mat src;
     static int etapasAprox = 0;
+
+    static int cont_miss = 0;
+
     float yAlvo = 195;
-    float xAlvo = 166;
+    float xAlvo = 145;
 
     bool alvo;
 
-    // Obtendo a imagem do robô
-    cameraFeed = robotino->getImage();
-    src = cameraFeed;
-
-    //convert frame from BGR to HSV colorspace
-    cvtColor(cameraFeed,HSV,COLOR_BGR2Lab);
-
-    //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
 
 
-    /*
-    if(robotino->objetoAlvo.getType() == "red"){
-        inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),thresholdr1);
-        inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
-        bitwise_or(thresholdr1,thresholdr2, threshold);
-    }else{
+    if(etapasAprox == 0)
+    {
+        // Obtendo a imagem do robô
+        cameraFeed = robotino->getImage();
+        src = cameraFeed;
+
+        //convert frame from BGR to HSV colorspace
+        cvtColor(cameraFeed,HSV,COLOR_BGR2Lab);
+
+        //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
+
+
+        /*
+        if(robotino->objetoAlvo.getType() == "red"){
+            inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),thresholdr1);
+            inRange(HSV,Scalar(0,120,0),Scalar(8,255,255),thresholdr2);
+            bitwise_or(thresholdr1,thresholdr2, threshold);
+        }else{
+            inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),threshold);
+        }
+        */
+            if(robotino->objetoAlvo.getType()=="yellow")
+                cout<<"amarelo"<<endl;
+            else if(robotino->objetoAlvo.getType()=="red")
+                cout<<"vermelho"<<endl;
+            else if(robotino->objetoAlvo.getType()=="blue")
+                cout<<"blue"<<endl;
+             else
+             {
+                cout<<"sem alvo"<<endl;
+                robotino->change_state(IdentificarCor::instance());
+                robotino->definirObjetoAlvo(Robotino::TODAS);
+             }
         inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),threshold);
-    }
-    */
-    inRange(HSV,robotino->objetoAlvo.getHSVmin(),robotino->objetoAlvo.getHSVmax(),threshold);
-    erode(threshold,threshold,element);
-    dilate(threshold,threshold,dlement);
-    dilate(threshold,threshold,dlement);
-    //SCmorphOps(threshold);
-    alvo = SCtrackFilteredObject(robotino->objetoAlvo,threshold,HSV,cameraFeed, robotino);
+        erode(threshold,threshold,element);
+        dilate(threshold,threshold,dlement);
+        dilate(threshold,threshold,dlement);
+        //SCmorphOps(threshold);
+        alvo = SCtrackFilteredObject(robotino->objetoAlvo,threshold,HSV,cameraFeed, robotino);
 
-    // Descomentar essa parte para mostrar o que está sendo seguido
-    imshow(windowName,cameraFeed);
-    cvMoveWindow(windowName.c_str(),500,300);
-    waitKey(1);
-
-    // Calculo dos erros em X (Horizontal) e Y (Vertical)
-    float w,Vx,
-            erroY   = -(robotino->objetoAlvo.getYPos() - yAlvo),
-            erroX   = -(robotino->objetoAlvo.getXPos() - xAlvo);
-
-
-    /* O metodo de aproximacao depende de onde o disco está
-
-        etapaAprox 0 - Enquanto o sensor de distancia frontal não estiver vendo o disco
-     		o robô usa a camera para seguir o disco
-     	etapaAprox 1 - Depois que o valor lido pelo IR for menor que o limiar de aprox,
-     		o robô usa o IR para se aproximar mais do disco
-     	etapaAprox 2 - Devido a não linearidade do sensor, após ler 5 cm, o valor lido
-     		pelo IR aumenta a medida que o objeto se aproxima, ele segue assim, até o
-     		objeto estar a 9 cm, o que na verdade é encostado na garra.
-     	etapaAprox 3 - O disco está completamente na garra, retorna-se entao ao estado
-     		anterior
-     	Nota - Se durante a etapa 2, o valor limite for maior que o limiar de aproximacao
-     		limite, retorna-se a etapa de aproximacao 0
-    */
-    if(robotino->irDistance(Robotino::IR_FRONTAL) < limiarAprox && (etapasAprox == 0 || etapasAprox == 1)){
-    	etapasAprox = 1;
-    }if(robotino->irDistance(Robotino::IR_FRONTAL) < limiarAprox2 && (etapasAprox == 1 || etapasAprox == 2)){
-    	etapasAprox = 3; // Mudou aqui, tirou a etapa 2
-    }if(robotino->irDistance(Robotino::IR_FRONTAL) > limiarAprox3 &&  etapasAprox == 2){
-    	etapasAprox = 3;
-    }if(robotino->irDistance(Robotino::IR_FRONTAL) > limiarAproxLim){ //&& etapasAprox == 2){
-    	etapasAprox = 0;
+        // Descomentar essa parte para mostrar o que está sendo seguido
+        imshow(windowName,cameraFeed);
+        cvMoveWindow(windowName.c_str(),500,300);
+        waitKey(1);
     }
 
-    // Calculo das velocidades de acordo com cada etapa
-    if(etapasAprox == 0){
-	w  = KpX*erroX;
-    	Vx   = KpY*erroY;
-    }else if(etapasAprox == 1){
-    	w = 0;
-    	Vx = Kpir*robotino->irDistance(Robotino::IR_FRONTAL);
-    }else if(etapasAprox == 2){
-    	w = 0;
-    	Vx = -Kpir2*(robotino->irDistance(Robotino::IR_FRONTAL)-limiarAprox3);
+    if(etapasAprox!=0||alvo)
+    {
+        // Calculo dos erros em X (Horizontal) e Y (Vertical)
+        float w,Vx,
+                erroY   = -(robotino->objetoAlvo.getYPos() - yAlvo),
+                erroX   = -(robotino->objetoAlvo.getXPos() - xAlvo);
+
+
+        /* O metodo de aproximacao depende de onde o disco está
+
+            etapaAprox 0 - Enquanto o sensor de distancia frontal não estiver vendo o disco
+         		o robô usa a camera para seguir o disco
+         	etapaAprox 1 - Depois que o valor lido pelo IR for menor que o limiar de aprox,
+         		o robô usa o IR para se aproximar mais do disco
+         	etapaAprox 2 - Devido a não linearidade do sensor, após ler 5 cm, o valor lido
+         		pelo IR aumenta a medida que o objeto se aproxima, ele segue assim, até o
+         		objeto estar a 9 cm, o que na verdade é encostado na garra.
+         	etapaAprox 3 - O disco está completamente na garra, retorna-se entao ao estado
+         		anterior
+         	Nota - Se durante a etapa 2, o valor limite for maior que o limiar de aproximacao
+         		limite, retorna-se a etapa de aproximacao 0
+        */
+        if(robotino->irDistance(Robotino::IR_FRONTAL) < limiarAprox && (etapasAprox == 0 || etapasAprox == 1)){
+        	etapasAprox = 1;
+        }if(robotino->irDistance(Robotino::IR_FRONTAL) < limiarAprox2 && (etapasAprox == 1 || etapasAprox == 2)){
+        	etapasAprox = 3; // Mudou aqui, tirou a etapa 2
+        }if(robotino->irDistance(Robotino::IR_FRONTAL) > limiarAprox3 &&  etapasAprox == 2){
+        	etapasAprox = 3;
+        }if(robotino->irDistance(Robotino::IR_FRONTAL) > limiarAproxLim){ //&& etapasAprox == 2){
+        	etapasAprox = 0;
+        }
+
+        // Calculo das velocidades de acordo com cada etapa
+        if(etapasAprox == 0){
+    	w  = KpX*erroX;
+        	Vx   = KpY*erroY;
+        }else if(etapasAprox == 1){
+        	w = 0;
+        	Vx = Kpir*robotino->irDistance(Robotino::IR_FRONTAL);
+        }else if(etapasAprox == 2){
+        	w = 0;
+        	Vx = -Kpir2*(robotino->irDistance(Robotino::IR_FRONTAL)-limiarAprox3);
+        }
+
+
+
+
+       	std::cout << "Etapa: " << etapasAprox << "\n";
+        std::cout << "W: " << w << "\n";
+
+    	std::cout << "Distancia: " << robotino->irDistance(Robotino::IR_FRONTAL) << "\n";
+
+        robotino->setVelocity(Vx,0,w);
+        if (etapasAprox == 3){
+        	//robotino->setCarregando(true);
+        	robotino->pegou_disco = true;
+            robotino->setVelocity(0,0,0);
+            robotino->change_state(robotino->previous_state());
+            etapasAprox = 0;
+        }
+        cont_miss = 0;
     }
+    else
+    {
 
-
-
-
-   	std::cout << "Etapa: " << etapasAprox << "\n";
-    std::cout << "W: " << w << "\n";
-
-	std::cout << "Distancia: " << robotino->irDistance(Robotino::IR_FRONTAL) << "\n";
-
-    robotino->setVelocity(Vx,0,w);
-    if (etapasAprox == 3){
-    	//robotino->setCarregando(true);
-    	robotino->change_state(robotino->previous_state());
-    	etapasAprox = 0;
+        if(etapasAprox == 0)
+        {
+            cont_miss++;
+            if(cont_miss>4){
+                robotino->setVelocity(0,0,0);
+                robotino->pegou_disco = false;
+                robotino->change_state(robotino->previous_state());
+            }
+        }
     }
 }
 

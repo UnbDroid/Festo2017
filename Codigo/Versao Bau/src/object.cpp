@@ -34,8 +34,8 @@ Object::Object(string name){
 		//Agora é verde!!!!!
 
 		//using YCrCb
-		setHSVmin(Scalar(20,100,125)); //(95,120,30)
-		setHSVmax(Scalar(120,125,170));
+		setHSVmin(Scalar(33,100,125)); //(95,120,30)
+		setHSVmax(Scalar(100,120,150));
 
 		//BGR value for blue:
 		setColor(Scalar(0,255,0));
@@ -78,8 +78,8 @@ Object::Object(string name){
 		//setHSVmax(Scalar(165,170,95));
 
 		//using Lab
-		setHSVmin(Scalar(140,105,170));
-		setHSVmax(Scalar(250,125,220));
+		setHSVmin(Scalar(100,110,160));
+		setHSVmax(Scalar(250,145,220));
 
 		//BGR value for Red:
 		setColor(Scalar(0,255,255));
@@ -101,8 +101,8 @@ Object::Object(string name){
 		//setHSVmax(Scalar(100,170,120));
 
 		//using Lab
-		setHSVmin(Scalar(35,150,140));
-		setHSVmax(Scalar(130,195,200));
+		setHSVmin(Scalar(40,140,140));
+		setHSVmax(Scalar(115,175,160));
 
 		//BGR value for Red:
 		setColor(Scalar(0,0,255));

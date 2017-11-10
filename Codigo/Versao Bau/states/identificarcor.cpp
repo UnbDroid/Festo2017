@@ -607,7 +607,7 @@ void IdentificarCor::execute(Robotino *robotino)
     //static Mat thresholdr2;
 
 
-    static int erode_size = 2;
+    static int erode_size = 3;
     static int dilate_size = 3;
     static Mat element = getStructuringElement( MORPH_RECT,Size(2*erode_size+1,2*erode_size+1));
     static Mat dlement = getStructuringElement( MORPH_RECT,Size(2*dilate_size+1,2*dilate_size+1));
@@ -624,12 +624,12 @@ void IdentificarCor::execute(Robotino *robotino)
     static Mat R(cameraFeed.size(),CV_8UC1);
     static Mat src;
 
-    static int minY = 35;
-    static int maxY = 130;
-    static int minCr = 150;
-    static int maxCr = 195;
+    static int minY = 40;
+    static int maxY = 115;
+    static int minCr = 140;
+    static int maxCr = 175;
     static int minCb = 140;
-    static int maxCb = 200;
+    static int maxCb = 160;
 
 
     namedWindow("painel");
@@ -666,24 +666,63 @@ void IdentificarCor::execute(Robotino *robotino)
         Object blue("blue"), yellow("yellow"), red("red"), black("black");
         bool azul, amarelo, vermelho, preto;
 
-        cvtColor(cameraFeed,YCrCb,COLOR_BGR2Lab);
-        imshow("YCrCb",YCrCb);
-
-
         Mat temp;
         vector<Mat> channels;
+
+//TESTE1 AQUI
+/*
+        erode(cameraFeed,temp,element);
+        erode(temp,temp,element);
+        dilate(temp,temp,dlement);
+        dilate(temp,temp,dlement);
+        imshow("cor",temp);
+*/
+
+
+
+//Teste2 AQUI
+
+        cvtColor(cameraFeed,temp,CV_BGR2HSV);
+        split(temp,channels);
+        imshow("H",channels[0]);
+        imshow("S",channels[1]);
+        imshow("V",channels[2]);
+
+
+        //cvtColor(temp,YCrCb,COLOR_BGR2Lab);
+
+        cvtColor(cameraFeed,YCrCb,COLOR_BGR2Lab);
+        //imshow("YCrCb",YCrCb);
+
+
+
+
+
+        channels.clear();
         split(YCrCb,channels);
-        imshow("Y",channels[0]);
-        imshow("Cr",channels[1]);
-        imshow("Cb",channels[2]);
+
+        imshow("L",channels[0]);
+        imshow("a",channels[1]);
+        imshow("b",channels[2]);
 
 
         inRange(YCrCb,yellow.getHSVmin(),yellow.getHSVmax(),Y);
+
         //inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),Y);
+        imshow("amarelo",Y);
+/*
+        inRange(channels[0],Scalar(minY),Scalar(maxY),channels[0]);
+        imshow("rangeY",channels[0]);
+        inRange(channels[1],Scalar(minCr),Scalar(maxCr),channels[1]);
+        imshow("rangeCr",channels[1]);
+        inRange(channels[2],Scalar(minCb),Scalar(maxCb),channels[2]);
+        imshow("rangeCb",channels[2]);
+    */
+
         erode(Y,Y,element);
         dilate(Y,Y,dlement);
         dilate(Y,Y,dlement);
-
+        imshow("amarelofim",Y);
         amarelo = trackFilteredObject(yellow,Y,YCrCb,cameraFeed, robotino);
         /*if (amarelo>0){
             robotino->lightLed(Robotino::LED_AMARELO, 1);
@@ -694,6 +733,17 @@ void IdentificarCor::execute(Robotino *robotino)
         //then reds
         //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
         inRange(YCrCb,red.getHSVmin(),red.getHSVmax(),R);
+
+        //inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),R);
+
+        /*
+        inRange(channels[0],Scalar(minY),Scalar(maxY),channels[0]);
+        imshow("rangeY",channels[0]);
+        inRange(channels[1],Scalar(minCr),Scalar(maxCr),channels[1]);
+        imshow("rangeCr",channels[1]);
+        inRange(channels[2],Scalar(minCb),Scalar(maxCb),channels[2]);
+        imshow("rangeCb",channels[2]);
+    */
         //inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),R);
         erode(R,R,element);
         dilate(R,R,dlement);
@@ -701,15 +751,22 @@ void IdentificarCor::execute(Robotino *robotino)
         vermelho = trackFilteredObject(red,R,YCrCb,cameraFeed, robotino);
 
 
+        inRange(YCrCb,blue.getHSVmin(),blue.getHSVmax(),B);
+        //inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),B);
+        //imshow("rangeVerde",B);
+        erode(B,B,element);
+        dilate(B,B,dlement);
+        dilate(B,B,dlement);
+        //imshow("verde2",B);
 
-        inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),B);
-        imshow("rangeVerde",B);
+       /*
         inRange(channels[0],Scalar(minY),Scalar(maxY),channels[0]);
         imshow("rangeY",channels[0]);
         inRange(channels[1],Scalar(minCr),Scalar(maxCr),channels[1]);
         imshow("rangeCr",channels[1]);
         inRange(channels[2],Scalar(minCb),Scalar(maxCb),channels[2]);
         imshow("rangeCb",channels[2]);
+        */
         azul = trackFilteredObject(blue,B,YCrCb,cameraFeed, robotino);
 
 

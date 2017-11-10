@@ -15,7 +15,8 @@
 #define FATOR_VELOCIDADE  5
 #define limiarAfastamento 7
 #define limiarIdeal 9
-#define Kpir 10
+#define Kpir 5//6
+#define kdir 4//5
 
 //*****************************************************************************************************************
 // IrParaPonto
@@ -40,6 +41,7 @@ void IrParaPonto::execute(Robotino *robotino)
 {
     float direcao;
     float vx;
+    static float ultimoDist = 0;
     static int processoCarregamento = 0;
     static State<Robotino> * voltar;
     static bool girei = false;
@@ -125,7 +127,8 @@ void IrParaPonto::execute(Robotino *robotino)
     }else if(processoCarregamento == 2){
         std::cout << "Eu estou aqui\n";
         float erroDist = robotino->irDistance(Robotino::IR_FRONTAL) - limiarIdeal;
-        vx = -Kpir*erroDist;
+        vx = -Kpir*erroDist - kdir*(erroDist - ultimoDist);
+        ultimoDist = erroDist;
         robotino->setVelocity(vx,0,0);
         if(erroDist < 1){
             processoCarregamento = 1;

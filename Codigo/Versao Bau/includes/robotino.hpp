@@ -267,6 +267,8 @@ public:
 
     bool deveGirar(){return girar;}
 
+
+    bool pegou_disco;
 private:
     void construir_mapa();
     OmniDrive omniDrive;
@@ -276,6 +278,8 @@ private:
     DigitalOutput led; //seta led pra acender
     //MyCamera<Robotino> camera;
     MyCamera2<Robotino> camera;
+
+
     // Imagem da camera
     cv::Mat cameraImage;
     cv::Mat srcImage;

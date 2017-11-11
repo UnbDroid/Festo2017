@@ -475,14 +475,23 @@ if(etapasAprox <= 0){
 
     // Calculo das velocidades de acordo com cada etapa
     if(etapasAprox == -1){
-        w  = KpW*erroW + KiW * acumulador;
+        //w  = KpW*erroW + KiW * acumulador;
+        w = KpW*erroW;
+        float sign = erroW/fabs(erroW);
+        if(fabs(w)<5)
+            w = 5*sign;
         Vx = 0;
     }
     if(etapasAprox == 0){
         acumulador = 0;
 	w  = KpX*erroX;
-
+            float sign = erroX/fabs(erroX);
+            if(fabs(w)<5)
+                w = 5*sign;
     	Vx   = KpY*erroY;
+             sign = erroY/fabs(erroY);
+            if(fabs(Vx)<10)
+                Vx = 10*sign;
 
     }else if(etapasAprox == 1){
 
@@ -490,12 +499,17 @@ if(etapasAprox <= 0){
 
     	Vx = Kpir*robotino->irDistance(Robotino::IR_FRONTAL);
 
+            float sign = Vx/fabs(Vx);
+            if(fabs(Vx) < 10)
+                Vx = 10*sign;
     }else if(etapasAprox == 2){
 
     	w = 0;
 
     	Vx = -Kpir2*(robotino->irDistance(Robotino::IR_FRONTAL)-limiarAprox3);
-
+            float sign = Vx/fabs(Vx);
+            if(fabs(Vx) <10)
+                Vx = 10*sign;
     }
 
 

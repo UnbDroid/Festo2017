@@ -42,8 +42,13 @@
 #include "modulo1tunado.hpp"
 #include "pededisco.hpp"
 #include "TesteMinibau.hpp"
-#include  "alinhafrenteparede.hpp"
-#include  "testeAlinhaFrente.hpp"//EXCLUIR DEPOIS
+
+
+#include "linhassensor.hpp"
+#include "alinhafrenteparede.hpp"
+#include "Modulo3_2017v3.hpp"
+
+
 using namespace rec::robotino::com;
 
 #define R 0
@@ -92,7 +97,7 @@ int main( int argc, char **argv )
 		//Banana
 
 		//Robotino robo(hostname.c_str(), Modulo3_2017::instance(), Coordenadas(30,-30,-90));//(374,-30,-90));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
-		Robotino robo(hostname.c_str(), testeAlinhaFrente::instance(), Coordenadas(30,-30,180));//(374,-30,-90));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
+		Robotino robo(hostname.c_str(), Modulo3_2017v3::instance(), Coordenadas(30,-30,-90));//(374,-30,-90));//Coordenadas(371,-141,180));//Coordenadas(173.5,-173.5,90));// Modulo 1 Coordenadas(30,-30,0));// Modulo 3 Coordenadas(173.5,-100,180)); // Modulo 2 Coordenadas(173.5,-173.5,90)); : modulo 2
 
 		while(true){
 			try{

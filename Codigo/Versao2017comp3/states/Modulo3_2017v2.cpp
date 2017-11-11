@@ -35,6 +35,9 @@
 #include <opencv2/opencv.hpp>
 #include <algorithm>
 
+#include "linhassensor.hpp"
+#include "testeAlinhaFrente.hpp"
+
 #define PI 3.14159265
 #define R 0
 #define Y 1

@@ -11,10 +11,14 @@
 #define KpY 2.5
 #define KiY 0.1
 
+#define KpW 0.2
+
 #define limiarAprox 30
-#define limiarAprox2 8
+#define limiarAprox2 9
 #define limiarAprox3 6.1
 #define limiarAproxLim 35
+
+#define maxErroX 6
 
 #define Kpir 10
 #define Kpir2 20
@@ -166,18 +170,21 @@ void SeguirCor::execute(Robotino *robotino)
     //static Mat thresholdr2;
     static Mat HSV;
     static Mat src;
-    static int etapasAprox = 0;
+    static int etapasAprox = -1;
 
     static int cont_miss = 0;
 
     float yAlvo = 195;
-    float xAlvo = 145;
+    float xAlvo = 166;
+
+    float wAlvo = 150;
+    float erroW;
 
     bool alvo;
 
 
 
-    if(etapasAprox == 0)
+    if(etapasAprox <= 0)
     {
         // Obtendo a imagem do robô
         cameraFeed = robotino->getImage();
@@ -229,7 +236,7 @@ void SeguirCor::execute(Robotino *robotino)
         float w,Vx,
                 erroY   = -(robotino->objetoAlvo.getYPos() - yAlvo),
                 erroX   = -(robotino->objetoAlvo.getXPos() - xAlvo);
-
+                erroW = -(robotino->objetoAlvo.getXPos() - wAlvo);
 
         /* O metodo de aproximacao depende de onde o disco está
 
@@ -245,6 +252,7 @@ void SeguirCor::execute(Robotino *robotino)
          	Nota - Se durante a etapa 2, o valor limite for maior que o limiar de aproximacao
          		limite, retorna-se a etapa de aproximacao 0
         */
+
         if(robotino->irDistance(Robotino::IR_FRONTAL) < limiarAprox && (etapasAprox == 0 || etapasAprox == 1)){
         	etapasAprox = 1;
         }if(robotino->irDistance(Robotino::IR_FRONTAL) < limiarAprox2 && (etapasAprox == 1 || etapasAprox == 2)){
@@ -254,9 +262,20 @@ void SeguirCor::execute(Robotino *robotino)
         }if(robotino->irDistance(Robotino::IR_FRONTAL) > limiarAproxLim){ //&& etapasAprox == 2){
         	etapasAprox = 0;
         }
+        if(etapasAprox == -1 && erroX < maxErroX)
+        {
+            etapasAprox = 0;
+        }
+
+        //etapasAprox = -1;
 
         // Calculo das velocidades de acordo com cada etapa
-        if(etapasAprox == 0){
+        if(etapasAprox == -1)
+        {
+            w = KpW*erroW;
+            Vx = 0;
+        }
+        else if(etapasAprox == 0){
     	w  = KpX*erroX;
         	Vx   = KpY*erroY;
         }else if(etapasAprox == 1){
@@ -272,7 +291,7 @@ void SeguirCor::execute(Robotino *robotino)
 
        	std::cout << "Etapa: " << etapasAprox << "\n";
         std::cout << "W: " << w << "\n";
-
+            cout<<"ErroX"<<erroX<<endl;
     	std::cout << "Distancia: " << robotino->irDistance(Robotino::IR_FRONTAL) << "\n";
 
         robotino->setVelocity(Vx,0,w);
@@ -280,8 +299,9 @@ void SeguirCor::execute(Robotino *robotino)
         	//robotino->setCarregando(true);
         	robotino->pegou_disco = true;
             robotino->setVelocity(0,0,0);
+            std::cout << "O disco está na garra\n";
             robotino->change_state(robotino->previous_state());
-            etapasAprox = 0;
+            etapasAprox = -1;
         }
         cont_miss = 0;
     }
@@ -292,8 +312,11 @@ void SeguirCor::execute(Robotino *robotino)
         {
             cont_miss++;
             if(cont_miss>4){
+                etapasAprox = -1;
+                cont_miss = 0;
                 robotino->setVelocity(0,0,0);
                 robotino->pegou_disco = false;
+                std::cout << "Perdi o disco\n";
                 robotino->change_state(robotino->previous_state());
             }
         }
@@ -301,7 +324,7 @@ void SeguirCor::execute(Robotino *robotino)
 }
 
 void SeguirCor::exit(Robotino *robotino) {
-	std::cout << "O disco está na garra\n";
+
 
 	robotino->setVelocity(0,0,0);
 }

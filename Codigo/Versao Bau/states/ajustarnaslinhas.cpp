@@ -10,7 +10,7 @@
 #define Kpx 2
 #define Kpy 1.5
 #define KpW 4
-#define yRef 160
+#define yRef 220
 #define xRef 160
 #define N 6
 #define limiarParada 1.5
@@ -58,7 +58,7 @@ void AjustarNasLinhas::execute(Robotino *robotino)
     Canny( cdst, cdst, (double)min_canny, (double)max_canny, 3 );
     convertScaleAbs(cdst, cdst);
 
-    //cv::imshow("Canny",cdst);
+    cv::imshow("Canny",cdst);
     //cv::waitKey(1);
 
     threshold(cdst, cdst, (double)5, (double)255, CV_THRESH_BINARY);
@@ -118,9 +118,9 @@ void AjustarNasLinhas::execute(Robotino *robotino)
     Vy = Kpy*erro_y;
     w = KpW*erro_theta;
 
-    //erros = abs(erro_x)+abs(erro_y)+abs(erro_theta);
+    erros = abs(erro_x)+abs(erro_theta);
 
-    erros = abs(erro_y)+abs(erro_theta);
+    //erros = abs(erro_y)+abs(erro_theta);
 
     std::cout<<"Soma dos erros: " << erros <<std::endl;
     if(erros < limiarParada){
@@ -130,8 +130,8 @@ void AjustarNasLinhas::execute(Robotino *robotino)
 
         robotino->change_state(robotino->previous_state());
     }else{
-        //robotino->setVelocity(Vx,Vy,w);
-        robotino->setVelocity(0,Vy,w);
+        robotino->setVelocity(Vx,0,w);
+        //robotino->setVelocity(0,Vy,w);
     }if (std::isnan(erros)) {
         robotino->setVelocity(-50,0,0);
     }

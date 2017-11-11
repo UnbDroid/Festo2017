@@ -38,6 +38,10 @@
 
 #include <sys/time.h>
 
+#include "irdistpelaparede.hpp"
+
+#include "linhassensor.hpp"
+
 
 //#include "pegardisco.hpp"
 
@@ -80,7 +84,7 @@ void testeVisao::enter(Robotino *robotino)
 
 void testeVisao::execute(Robotino *robotino)
 {
-    static int objetivo_completo = 10;
+    static int objetivo_completo = 9786;
     static int discos_entregues = 0;
     static int numPassosFazer = 0;
     static int numPassosFeitos = 0;
@@ -106,8 +110,14 @@ void testeVisao::execute(Robotino *robotino)
 // Saindo da area de inicio e indo para a area de deposito 6------------------------------------------------------------------------------------------
 //ANDA NAS 4 paredes da arena seguindo parede no sentido horário
     //usleep(2000000);
-    if(objetivo_completo == 10)
+    if(objetivo_completo == 9786)
     {
+        robotino->change_state(LinhasSensor::instance());
+
+    }
+    else if(objetivo_completo == 11)
+    {
+        cout<<"me ajuda"<<endl;
         robotino->definirParedeAlvo(Robotino::SULN90);
         robotino->setDistParede(15);
         robotino->setDistTrasParede(15);
@@ -127,29 +137,39 @@ void testeVisao::execute(Robotino *robotino)
             angulo = -90;
         objetivo_completo = 900;
     }
-    else if(objetivo_completo == 900)
+    else if(objetivo_completo == 10)
     {
-        robotino->definirDestino(robotino->odometryX()/10, robotino->odometryY()/10-80);
-        robotino->change_state(IrParaPonto::instance());
-        objetivo_completo = 0;
+        robotino->definirParedeAlvo(Robotino::SULN90);
+        robotino->setDistParede(15);
+        robotino->setDistTrasParede(10);
+        robotino->setaDistParede(1400);
+        robotino->change_state(IrDistPelaParede2::instance());
+        objetivo_completo = 987;
     }
-    else if(objetivo_completo == 901)
+    else if(objetivo_completo == 987)
     {
-        robotino->definirDestino(robotino->odometryX()/10+20, robotino->odometryY()/10);
-        robotino->change_state(IrParaPonto::instance());
-        objetivo_completo = 0;
+        robotino->definirParedeAlvo(Robotino::NORTEN90);
+        robotino->setDistParede(15);
+        robotino->setDistTrasParede(10);
+        robotino->setaDistParede(1300);
+        robotino->change_state(IrDistPelaParede2::instance());
+        objetivo_completo = 87;
     }
-    else if (objetivo_completo == 0)
+    else if(objetivo_completo == -2)
+    {
+        objetivo_completo = -1;
+    }
+    else if (objetivo_completo == 98)
     {
         num_buscas++;
         robotino->change_state(IdentificarCor::instance());
-        objetivo_completo = 1;
+        objetivo_completo = 98;
     }
     else if(objetivo_completo == 1)
     {
         if(robotino->objetosAzuis.size() == 0 && robotino->objetosAmarelos.size() == 0 && robotino->objetosVermelhos.size() == 0)
         {
-            objetivo_completo = 0;
+            objetivo_completo = -1;
         }
         else
         {
@@ -167,56 +187,60 @@ void testeVisao::execute(Robotino *robotino)
     {
         if(!robotino->pegou_disco)
         {
-            objetivo_completo = 0;
+            objetivo_completo = -1;
             cout<<"Falhei buabuabua"<<endl;
         }
         else
         {
             cout<<"i win hahahahha"<<endl;
-            objetivo_completo = 987;
+            objetivo_completo = 1012;
         }
 
     }
-    else if(objetivo_completo == 987){
-        robotino->definirDestino(robotino->odometryX()/10, robotino->odometryY()/10-20);
-        robotino->change_state(IrParaPonto::instance());
-        objetivo_completo = 908;
-    }
-    else if(objetivo_completo == 908)
+    else if(objetivo_completo == 1012)
     {
-        robotino->setThetaR(90);
+        robotino->setThetaR(-90);
         robotino->change_state(Girar::instance());
-        objetivo_completo = 9000;
+        objetivo_completo = 1013;
     }
-
-    else if(objetivo_completo == 9000)
+    else if(objetivo_completo == 1013)
     {
-        robotino->definirDestino(robotino->odometryX()/10-30, robotino->odometryY()/10-10);
+        robotino->definirDestino(robotino->odometryX()/10+30, robotino->odometryY()/10);
         robotino->change_state(IrParaPonto::instance());
-
-        objetivo_completo = 9001;
+        objetivo_completo = 1014;
     }
-    else if(objetivo_completo == 9001)
+    else if(objetivo_completo == 1014)
     {
-        //robotino->setVelocity(0,0,50);//GIRA LOUCAMENTE
         robotino->setThetaR(0);
         robotino->change_state(Girar::instance());
-        angulo+=90;
-        if(angulo == 180)
-            angulo = 179;
-        if(angulo > 180)
-            angulo = -90;
-        objetivo_completo = 9002;
+        objetivo_completo = 1015;
     }
-    else if(objetivo_completo == 9002){
-        robotino->definirDestino(robotino->odometryX()/10, robotino->odometryY()/10+30);
-        robotino->change_state(IrParaPonto::instance());
-        objetivo_completo = 9003;
-    }
-    else if(objetivo_completo == 9003){//vai pra parede com disco
+    else if(objetivo_completo == 1015)
+    {
 
-            }
-    else if(objetivo_completo == 87){}
+        robotino->definirParedeAlvo(Robotino::OESTE0);
+        robotino->setDistParede(10);
+        robotino->change_state(IrParaParede::instance());
+
+        objetivo_completo = 1016;
+    }
+    else if(objetivo_completo == 1016)
+    {
+        robotino->setThetaR(-90);
+        robotino->change_state(Girar::instance());
+        objetivo_completo = 1017;
+    }
+    else if(objetivo_completo == 1017)
+    {
+        robotino->definirParedeAlvo(Robotino::NORTEN90);
+        robotino->setDistParede(15);
+        robotino->setDistTrasParede(10);
+        robotino->change_state(IrParedePelaParede::instance());
+        objetivo_completo = 87;
+    }
+    else if(objetivo_completo == 87){
+        cout<<"CHEGUEI AQUI"<<endl;
+    }
     else if(objetivo_completo == 87){}
     else if(objetivo_completo == 87){}
     else if(objetivo_completo == 87){}

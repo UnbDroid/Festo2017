@@ -257,7 +257,7 @@ void Robotino::update(){
                 countOdometria = 0;
             }
 
-            cv::imshow("Amor",this->cameraImage);
+            //cv::imshow("Amor",this->cameraImage);
             cv::imshow("Amor", this->getImage());
             //cvMoveWindow("Amor",0,500);
             //std::cout << "Odometria : " << odometryPhi() << std::endl;
@@ -479,6 +479,7 @@ void Robotino::setCorDiscoDeposito (Object obj1, Object obj2) {
     }
 
 }
+
 
 void Robotino::removerCorFaltando(int cor){
     coresFaltando.erase(std::find(coresFaltando.begin(), coresFaltando.end(), cor));

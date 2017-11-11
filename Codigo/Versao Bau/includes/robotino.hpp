@@ -181,6 +181,8 @@ public:
     int LED_AMARELO;
     int LED_AZUL;*/
 
+    float deslocamento;
+    void setaDistParede(float delta){deslocamento = delta;}
 
     bool newImage;
     bool loadedImage;

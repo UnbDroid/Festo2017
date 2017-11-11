@@ -12,7 +12,7 @@ const int FRAME_HEIGHT = 480;
 //max number of objects to be detected in frame
 const int MAX_NUM_OBJECTS=50;
 //minimum and maximum object area
-const int MIN_OBJECT_AREA = 4*4;
+const int MIN_OBJECT_AREA = 20*20;
 const int MAX_OBJECT_AREA = FRAME_HEIGHT*FRAME_WIDTH/1.5;
 //names that will appear at the top of each window
 const string windowName = "Original Image";
@@ -709,7 +709,7 @@ void IdentificarCor::execute(Robotino *robotino)
         inRange(YCrCb,yellow.getHSVmin(),yellow.getHSVmax(),Y);
 
         //inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),Y);
-        imshow("amarelo",Y);
+        //imshow("amarelo",Y);
 /*
         inRange(channels[0],Scalar(minY),Scalar(maxY),channels[0]);
         imshow("rangeY",channels[0]);
@@ -722,7 +722,7 @@ void IdentificarCor::execute(Robotino *robotino)
         erode(Y,Y,element);
         dilate(Y,Y,dlement);
         dilate(Y,Y,dlement);
-        imshow("amarelofim",Y);
+        //imshow("amarelofim",Y);
         amarelo = trackFilteredObject(yellow,Y,YCrCb,cameraFeed, robotino);
         /*if (amarelo>0){
             robotino->lightLed(Robotino::LED_AMARELO, 1);
@@ -733,10 +733,10 @@ void IdentificarCor::execute(Robotino *robotino)
         //then reds
         //cvtColor(cameraFeed,HSV,COLOR_BGR2HSV);
         inRange(YCrCb,red.getHSVmin(),red.getHSVmax(),R);
+/*
+        inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),R);
 
-        //inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),R);
-
-        /*
+        imshow("red",R);
         inRange(channels[0],Scalar(minY),Scalar(maxY),channels[0]);
         imshow("rangeY",channels[0]);
         inRange(channels[1],Scalar(minCr),Scalar(maxCr),channels[1]);
@@ -748,25 +748,26 @@ void IdentificarCor::execute(Robotino *robotino)
         erode(R,R,element);
         dilate(R,R,dlement);
         dilate(R,R,dlement);
+        //imshow("redfim",R);
         vermelho = trackFilteredObject(red,R,YCrCb,cameraFeed, robotino);
 
 
-        inRange(YCrCb,blue.getHSVmin(),blue.getHSVmax(),B);
-        //inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),B);
-        //imshow("rangeVerde",B);
+        //inRange(YCrCb,blue.getHSVmin(),blue.getHSVmax(),B);
+        inRange(YCrCb,Scalar(minY,minCr,minCb),Scalar(maxY,maxCr,maxCb),B);
+        imshow("rangeVerde",B);
         erode(B,B,element);
         dilate(B,B,dlement);
         dilate(B,B,dlement);
-        //imshow("verde2",B);
+        imshow("verde2",B);
 
-       /*
+
         inRange(channels[0],Scalar(minY),Scalar(maxY),channels[0]);
         imshow("rangeY",channels[0]);
         inRange(channels[1],Scalar(minCr),Scalar(maxCr),channels[1]);
         imshow("rangeCr",channels[1]);
         inRange(channels[2],Scalar(minCb),Scalar(maxCb),channels[2]);
         imshow("rangeCb",channels[2]);
-        */
+
         azul = trackFilteredObject(blue,B,YCrCb,cameraFeed, robotino);
 
 

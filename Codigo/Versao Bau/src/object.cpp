@@ -102,7 +102,7 @@ Object::Object(string name){
 
 		//using Lab
 		setHSVmin(Scalar(40,140,140));
-		setHSVmax(Scalar(115,175,160));
+		setHSVmax(Scalar(135,200,200));
 
 		//BGR value for Red:
 		setColor(Scalar(0,0,255));

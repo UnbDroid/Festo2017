@@ -45,6 +45,7 @@ void IrParaParede::execute(Robotino *robotino)
     static bool pronto = false;
     static bool entrei = true;
     static State<Robotino> * voltar;
+    voltar = robotino->previous_state();
 
     static float a = std::sin(60*PI/180)/std::sin(80*PI/180);
     static float cos20 = std::cos(20*PI/180);
@@ -67,6 +68,8 @@ void IrParaParede::execute(Robotino *robotino)
         girei = robotino->getNaoDevoGirarParede();
         entrei = false;
     }
+
+    girei = true;
 
     std::cout<< "devo girar para parede?: "<< robotino->getNaoDevoGirarParede() << std::endl;
     std::cout<< "girei: "<< girei << std::endl;
